@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>登录</title>
+        <body>
+            <center><h1>登录</h1></center>
+            <div class="div1"  style="width:600px;margin-left:auto;margin-right:auto" >
+            <main>
+                <form method="post">
+                <center><p>账号:<input type="text" name="name" id=name required></p></center>
+                <center><p>密码:<input type="password" name="password" id=password required></p></center>
+                <center><input type="submit" value="登录"onclick="return True"></center>
+                </form>
+                <center><a href={{url_for("register")}}><button>注册</button></a></center>
+                
+                <center>{{get_flashed_messages()[0]}}</center>
+                
+        </body>
+    </head>
+</html>

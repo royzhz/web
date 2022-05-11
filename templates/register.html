@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>注册</title>
+
+        <script type="text/javascript">
+        function checkEmail(){
+            var myemail=document.getElementById("mainform").email.value;
+            var myReg=/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+        
+            if(myReg.test(myemail)){
+                myspan.innerText="";
+                return true;
+            }else{
+            myspan.innerText="邮箱格式不对!";
+            return false;
+            }
+        }
+
+        function checkfirst(){
+            if(pass1.value.length<=6){
+                pass1pan.innerText="密码请保证至少7位!"
+                return false;
+            }
+            else{
+                pass1pan.innerText=""
+                return true;
+            }
+
+        }
+
+        function checkpass(){
+            var form1=document.getElementById("mainform")
+            var pass1=form1.pass1.value
+            var pass2=form1.pass2.value
+            if(pass1==pass2){
+                passpan.innerText="";
+                return true;                
+            }
+
+            else{
+                passpan.innerText="密码不一致!";
+                return false;
+            }
+        }
+
+        function shouldsbmit(){
+            if(checkfirst()&&checkEmail() && checkpass())
+                return true;
+            else
+                return false;
+        }
+        </script>
+    </head>
+    <body>
+        <center><h1>注册</h1></center>
+        <div class="div1"  style="width:600px;margin-left:auto;margin-right:auto" >
+        <main>
+            <form method="post" id="mainform" style="white-space:pre;">
+            昵      称:<input type="text" name="name" id=name>          
+            电子邮件:  <input type="text" name="email" id=email  size=50 oninput="checkEmail();"> <span id=myspan style="color:red;"></span>
+            密      码:<input type="text" name="pass1" id=pass1 oninput="checkfirst()"><span id=pass1pan style="color:red;"></span>
+            确认密码:<input type="text" name="pass2" id=pass2 oninput="checkpass()"><span id=passpan style="color:red;"></span>
+            个性签名:
+            <textarea rows="10" cols="40" name="t_text" id=t_text></textarea>
+            <input type="submit" value="提交" onclick="return shouldsbmit()"></input>
+            {{ get_flashed_messages()[0] }}
+        </form>
+        </main>
+        </div>
+    </body>
+</html>
