@@ -1,13 +1,9 @@
-from flask import Flask,render_template,request,flash,url_for,redirect
-from flask_login import (LoginManager,login_user,logout_user,login_required,current_user)
-from exp import login_manager
-from sql import User,add_user,find_user
-from apps import basicbp
+from flask import render_template,request,flash,url_for,redirect,Blueprint
+from flask_login import login_user,logout_user,login_required,current_user
+from sql import User,add_user,find_user,load_user
 
-@login_manager.user_loader
-def load_user(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
-    user = User.query.get(int(user_id))  # 用 ID 作为 User 模型的 主键查询对应的用户
-    return user
+
+basicbp=Blueprint("basic",__name__,template_folder='templates')
 
 @basicbp.route('/')
 def main():

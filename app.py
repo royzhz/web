@@ -1,30 +1,19 @@
-import os
-import sys
-from exp import db,app
+from exp import app
 #cd venv/Scripts
 #./activate
 #初始化阶段
-WIN = sys.platform.startswith('win')
-if WIN:
-    prefix = 'sqlite:///'
-else:
-    prefix = 'sqlite:////'
-app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'data.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'mypass'
-db.init_app(app)
 
-
-from apps import basicbp,postbp,funcbp
 from apps import basic,post,func
-app.register_blueprint(basicbp)
-app.register_blueprint(postbp)
-app.register_blueprint(funcbp)
+app.register_blueprint(basic.basicbp)
+app.register_blueprint(post.postbp)
+app.register_blueprint(func.funcbp)
 app.run()
+
 
 
 import click
 from sql import add_user
+from exp import db
 @app.cli.command()  # 注册为命令
 @click.option('--drop', is_flag=True, help='Create after drop.')# 设置选项
 def initdb(drop):#"""Initialize the database."""

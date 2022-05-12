@@ -1,6 +1,12 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from exp import db
 from flask_login import UserMixin
+from exp import login_manager
+
+@login_manager.user_loader
+def load_user(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
+    user = User.query.get(int(user_id))  # 用 ID 作为 User 模型的 主键查询对应的用户
+    return user
 
 class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 主键，学号
