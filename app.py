@@ -1,6 +1,8 @@
 import os
 import sys
-from exp import db,app
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+from flask_login import LoginManager
 #cd venv/Scripts
 #./activate
 #初始化阶段
@@ -9,10 +11,26 @@ if WIN:
     prefix = 'sqlite:///'
 else:
     prefix = 'sqlite:////'
-app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'data.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'mypass'
-db.init_app(app)
+login_manager = LoginManager()
+db = SQLAlchemy()
+
+def create_app():
+    app = Flask(__name__,static_folder='apps/static')
+    login_manager.init_app(app)
+    app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'data.db')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SECRET_KEY'] = 'mypass'
+    db.init_app(app)
+
+    from apps import authbp,homebp,funcbp
+    from apps import auth,home,func
+    app.register_blueprint(authbp)
+    app.register_blueprint(homebp)
+    app.register_blueprint(funcbp)
+    return app
+
+app=create_app()
+app.run()
 
 import click
 from sql import add_user
@@ -26,6 +44,3 @@ def initdb(drop):#"""Initialize the database."""
         add_user("roy","1234567","","admin")
         db.session.commit()
     click.echo('Initialized database.')  # 输出提示信息
-
-from auth import main
-app.run()
