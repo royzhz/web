@@ -1,8 +1,6 @@
 import os
 import sys
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
-from flask_login import LoginManager
+from exp import db,app
 #cd venv/Scripts
 #./activate
 #初始化阶段
@@ -11,26 +9,19 @@ if WIN:
     prefix = 'sqlite:///'
 else:
     prefix = 'sqlite:////'
-login_manager = LoginManager()
-db = SQLAlchemy()
+app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'data.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'mypass'
+db.init_app(app)
 
-def create_app():
-    app = Flask(__name__,static_folder='apps/static')
-    login_manager.init_app(app)
-    app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'data.db')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = 'mypass'
-    db.init_app(app)
 
-    from apps import authbp,homebp,funcbp
-    from apps import auth,home,func
-    app.register_blueprint(authbp)
-    # app.register_blueprint(homebp)
-    # app.register_blueprint(funcbp)
-    return app
-
-app=create_app()
+from apps import basicbp,postbp,funcbp
+from apps import basic,post,func
+app.register_blueprint(basicbp)
+app.register_blueprint(postbp)
+app.register_blueprint(funcbp)
 app.run()
+
 
 import click
 from sql import add_user

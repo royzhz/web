@@ -1,9 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
-import os
-import sys
-
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import db
+from exp import db
 from flask_login import UserMixin
 
 class User(UserMixin,db.Model):
