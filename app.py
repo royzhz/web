@@ -25,8 +25,8 @@ def create_app():
     from apps import authbp,homebp,funcbp
     from apps import auth,home,func
     app.register_blueprint(authbp)
-    app.register_blueprint(homebp)
-    app.register_blueprint(funcbp)
+    # app.register_blueprint(homebp)
+    # app.register_blueprint(funcbp)
     return app
 
 app=create_app()
