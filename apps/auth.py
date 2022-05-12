@@ -2,7 +2,8 @@ from flask import Flask,render_template,request,flash,url_for,redirect
 from flask_login import (LoginManager,login_user,logout_user,login_required,current_user)
 from app import login_manager
 from sql import User,add_user,find_user
-from apps import authbp
+
+authbp = Blueprint('admin', __name__, url_prefix='/')
 
 @login_manager.user_loader
 def load_user(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
