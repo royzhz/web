@@ -23,7 +23,7 @@ def login():
         user=find_user(user_name)
         if user==False:
             flash("不存在该用户！")
-            return render_template("login.html")
+            return render_template("main.html")
         if(user.check_password(password)):
             login_user(user)
             #if(user.auth=="admin"):
