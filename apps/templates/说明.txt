@@ -1,1 +1,6 @@
 之后的html放在这里
+main:论坛页面（未完成）
+login：登录界面
+register：注册
+test：用于测试（无用）
+common：其中有底部样式和侧边栏样式
