@@ -18,7 +18,7 @@
 <body style="background: url(../static/images/img_login.jpg) no-repeat;background-size:cover;font-size: 15px;">
 <div class="container">
     <div class="form row">
-        <form class="form-horizontal col-sm-offset-3 col-md-offset-3">
+        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" method="post">
             <h3 class="form-title">登录</h3>
             <div class="col-sm-9 col-md-9">
                 <div class="form-group">
@@ -46,6 +46,7 @@
     </div>
     {{get_flashed_messages()[0]}}
     {% include "common/footer.html" %}<!--引入网页的底部模板-->
+</div>
 <!--<center><h1>登录</h1></center>-->
 <!--<div class="div1" style="width:600px;margin-left:auto;margin-right:auto">-->
 <!--    <main>-->

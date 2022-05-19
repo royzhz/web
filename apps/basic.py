@@ -36,7 +36,7 @@ def login():
 
 
 
-@basicbp.route('/register', methods=['GET', 'POST'])
+@basicbp.route('/register/', methods=['GET', 'POST'])
 def register():
     if request.method=='POST':
         user_name = request.form['name']
