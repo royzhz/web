@@ -2,3 +2,17 @@
 若不能使用先在命令行运行flask initdb --drop
 可以直接运行，也可以使用flask run命令运行
 目前是一点框架，后面扩充
+
+注册用户需要的信息：
+id（学号）,name,password,intro,auth,dorm
+
+发表帖子需要的信息：
+用户id（后端能得到，不用前端给）
+发表的内容post_content
+状态status,默认可见为“visible”，
+
+发表帖子评论需要的信息：
+用户id（后端能得到，不用前端给）
+发表时对应的帖子的id(前端需要给）
+发表的内容comment_content
+状态status,默认可见为“visible”，

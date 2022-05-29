@@ -1,24 +1,24 @@
 from flask import render_template,request,flash,url_for,redirect,Blueprint
 from flask_login import login_user,logout_user,login_required,current_user
+
+import sql
 from sql import User,add_user,find_user,load_user
 
 
 basicbp=Blueprint("basic",__name__,template_folder='templates')
 
-@basicbp.route('/')
+@basicbp.route('/',methods = ['GET', 'POST'])
 def main():
     if current_user.is_authenticated:
-        #if current_user.auth=="admin":
-            #return redirect(url_for("basic.home"))
-        #else:
-        return redirect(url_for("basic.home",user_id=current_user.id))
+        pages=sql.get_page()
+        return redirect(url_for("basic.home",pages=pages,user_id=current_user.id))
     else:
         return redirect(url_for("basic.login"))
 
 @basicbp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user_name = request.form['name']
+        user_name = request.form['no']
         password = request.form['password']
         user=find_user(user_name)
         if user==False:
@@ -39,16 +39,16 @@ def login():
 @basicbp.route('/register/', methods=['GET', 'POST'])
 def register():
     if request.method=='POST':
-        user_name = request.form['name']
-        email=request.form['email']
-        password = request.form['pass1']
+        user_no=request.form['no']
+        user_name = request.form['username']
+        password = request.form['password']
         intro=request.form['t_text']
-
+        dor=request.form['dor']
         if(find_user(user_name)!=False):
             flash("已经被注册！")
             return render_template('register.html')
         else:
-            add_user(user_name,password,intro,"normal")
+            add_user(user_no,user_name,password,intro,"normal",dor)
             return redirect(url_for("basic.login"))
 
     return render_template('register.html')
