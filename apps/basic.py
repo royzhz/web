@@ -58,4 +58,31 @@ def home(user_id):
     if (current_user.is_authenticated==False):
         return redirect(url_for("basic.login"))
     user=load_user(user_id)
-    return render_template("home.html",name=user.name)
+    post=user.user_post
+    user_intro=user.intro
+
+    return render_template("home.html",user_name=user.name,user_intro=user_intro,all_post=post)
+
+@basicbp.route('/sbmitpost', methods=['GET', 'POST'])
+def submitpost():
+    if (current_user.is_authenticated==False):
+        return redirect(url_for("basic.login"))
+    if request.method=="POST":
+        user_no=current_user.id
+        post_content=request.form['post_content']
+        sql.publish_post(user_no, post_content)
+
+        return redirect(url_for("basic.main"))
+    return render_template("submit_post.html")
+
+@basicbp.route('/post/<post_id>', methods=['GET', 'POST'])
+def viewpost(post_id):
+    if (current_user.is_authenticated==False):
+        return redirect(url_for("basic.login"))
+    if request.method == "POST":
+        user_no=current_user.id
+        post_content=request.form['comment_content']
+        sql.add_post_comment(user_no,post_id,post_content)
+
+    post_content,time,comment,user=sql.find_post(post_id)
+    return render_template("post.html",post_content=post_content,time=time,comment=comment,user=user)

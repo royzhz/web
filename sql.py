@@ -81,8 +81,17 @@ def get_page():
     pagination = post.query.order_by(post.update_at.desc()).paginate(1, per_page=10, error_out=False)
     return pagination
 
+
+
 def find_user(no):
     u=load_user(no)
     if(u is None):
         return False
     return u
+
+def find_post(post_id):
+    p=post.query.get(post_id)
+    comment=p.post_comments
+    user=User.query.get(p.publish_user_id)
+    time=p.update_at
+    return p.post_content,time,comment,user
