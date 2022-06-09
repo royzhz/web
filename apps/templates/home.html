@@ -1,4 +1,54 @@
 <!DOCTYPE html>
 <html>
-<p><center>您好,{{name}}</center></p>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <title>{{user_name}}的个人页面</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link href="{{ url_for('static', filename='css/minecss.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/minejs.js') }}"></script>
+
+
+</head>
+<body style="background: url(../static/images/top_image.jpg) no-repeat;background-size:100%;font-size: 15px;">
+<div class="container">
+    <h1 class="text-info">{{user_name}}的主页</h1>
+    <br><br><br><br><br>
+    <div class="row">
+        <div class="col-md-2">
+            <img class="img-thumbnail " style="width:150px;height:150px;"
+                 src="{{ url_for('static', filename='images/roy.jpg') }}"/>
+        </div>
+        <div class="col-md-4 text-info">用户名：{{user_name}}<br>个人简介：{{user_intro}}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9">
+            {% for post in all_post %}
+            <a href={{url_for("basic.viewpost",post_id=post.id)}}>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p>
+                            {{post.post_content}}
+                        </p>
+                        {% if post.id %}
+                        <img class="img-thumbnail " style="height:200px;"
+                             src="{{ url_for('static', filename='images/{{post.id}}.jpg') }}"/>
+                        {% endif %}
+                        <hr>
+                        <p><small>{{post.update_at}}</small></p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+        </div>
+        {% include "common/sidebar.html" %}<!--引入网页的侧边模板-->
+    </div>
+</div>
+</body>
 </html>

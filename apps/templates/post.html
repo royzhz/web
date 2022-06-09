@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <title>post页面</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link href="{{ url_for('static', filename='css/minecss.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/minejs.js') }}"></script>
+
+
+</head>
+<body>
+{% include "common/header.html" %}<!--引入网页的头部模板-->
+<br><br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="img-thumbnail" style="width:80px;height:80px;"
+                                 src="{{ url_for('static', filename='images/roy.jpg') }}"/>
+                        </div>
+                        <div class="col-md-9">
+                            <h2>{{user.name}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p>
+                {{post_content}}
+            </p>
+            {% if post_id %}
+            <img class="img-thumbnail " style="height:200px;"
+                 src="{{ url_for('static', filename='images/{{post.id}}.jpg') }}"/>
+            {% endif %}
+            <hr>
+            <p><small>{{time}}</small></p>
+            <br>
+            <div class="panel panel-default">
+                <form class="form-horizontal" method="post">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="input-group">
+                                <div class="input-group-addon glyphicon glyphicon-pencil"></div>
+                                <textarea class="form-control" rows="1" name="comment_content" placeholder="请输入你的评论"
+                                          required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="submit" value="提交" class="btn btn-success pull-right">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {{get_flashed_messages()[0]}}
+            <br>
+            {% for comment in comment %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="img-thumbnail" style="width:40px;height:40px;"
+                                         src="{{ url_for('static', filename='images/roy.jpg') }}"/>
+                                </div>
+                                <div class="col-md-8">
+                                    <h4>111</h4>
+                                    {{comment.belong_user.name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p>{{comment.comment_content}}</p>
+                    <hr>
+                    <p><small>{{comment.update_at}}</small></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% include "common/sidebar.html" %}<!--引入网页的侧边模板-->
+    </div>
+</div>
+</body>
+</html>

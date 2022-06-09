@@ -1,6 +1,2 @@
-之后的html放在这里
-main:论坛页面（未完成）
-login：登录界面
-register：注册
-test：用于测试（无用）
-common：其中有底部样式和侧边栏样式
+1.请将user的头像路径加到user中，例：'images/roy.jpg'，没有传入''即可
+2.请将post的图片路径加到post中，没有传入''即可
