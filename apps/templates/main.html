@@ -39,104 +39,21 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9">
-            <!--            {% for post in posts %}-->
-            <!--            <a href={{url_for("basic.login")}}>-->
-            <!--                <div class="panel panel-default">-->
-            <!--                    <div class="panel-heading">-->
-            <!--                        <h3 class="panel-title">-->
-            <!--                            {{post.username}}-->
-            <!--                        </h3>-->
-            <!--                    </div>-->
-            <!--                    <div class="panel-body">-->
-            <!--                        {{post.content}}-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </a>-->
-            <!--            {%endfor%}-->
+            {% for post in posts %}
             <a href={{url_for("basic.login")}}>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            2052150
+                            {{post.username}}
                         </h3>
                     </div>
                     <div class="panel-body">
-                        <h4>荷塘月色-朱自清</h4>
-                        <p>这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的光里，总该另有一番样子吧。月亮 […]</p>
-                        <em>5月 3, 2022</em>
+                        {{post.content}}
                     </div>
                 </div>
             </a>
-                        <a href={{url_for("basic.login")}}>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            2052150
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <h4>荷塘月色-朱自清</h4>
-                        <p>这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的光里，总该另有一番样子吧。月亮 […]</p>
-                        <em>5月 3, 2022</em>
-                    </div>
-                </div>
-            </a>
-                        <a href={{url_for("basic.login")}}>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            2052150
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <h4>荷塘月色-朱自清</h4>
-                        <p>这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的光里，总该另有一番样子吧。月亮 […]</p>
-                        <em>5月 3, 2022</em>
-                    </div>
-                </div>
-            </a>
-                        <a href={{url_for("basic.login")}}>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            2052150
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <h4>荷塘月色-朱自清</h4>
-                        <p>这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的光里，总该另有一番样子吧。月亮 […]</p>
-                        <em>5月 3, 2022</em>
-                    </div>
-                </div>
-            </a>
-                        <a href={{url_for("basic.login")}}>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            2052150
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <h4>荷塘月色-朱自清</h4>
-                        <p>这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的光里，总该另有一番样子吧。月亮 […]</p>
-                        <em>5月 3, 2022</em>
-                    </div>
-                </div>
-            </a>
-                        <a href={{url_for("basic.login")}}>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            2052150
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <h4>荷塘月色-朱自清</h4>
-                        <p>这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的光里，总该另有一番样子吧。月亮 […]</p>
-                        <em>5月 3, 2022</em>
-                    </div>
-                </div>
-            </a>
+            {%endfor%}
+
 
 
         </div>

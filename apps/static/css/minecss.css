@@ -16,6 +16,7 @@ input.form-control:invalid{
     background-color: #ffeeed;
 }
 /*设置图标为行内元素，并设置大小和颜色*/
+/*
 .fa{
     display: inline-block;
     top: 27px;
@@ -24,9 +25,11 @@ input.form-control:invalid{
     color: #575757;
 }
 /*为几个输入框设置padding,防止和图标重合*/
+/*
 input[type="text"],input[type="password"],input[type="email"]{
     padding-left:26px;
 }
+*/
 .form-title{
     padding-top:20px;
 }
