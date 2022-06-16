@@ -3,9 +3,9 @@ from exp import app,socketio
 #cd venv/Scripts
 #./activate
 #初始化阶段
-from apps import basic,post,func
+from apps import basic,chat,func
 app.register_blueprint(basic.basicbp)
-app.register_blueprint(post.postbp)
+app.register_blueprint(chat.postbp)
 app.register_blueprint(func.funcbp)
 socketio.init_app(app, cors_allowed_origins='*')
 
