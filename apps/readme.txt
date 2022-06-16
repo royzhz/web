@@ -46,4 +46,16 @@ id：post的id用于找图片
 post_content：post的内容
 update_at：发表时间
 
+目前即时通讯想法如下：
+点击别人头像或者昵称后能进入其主页，访问别人的主页时有一个私聊按钮，点击后进行私聊
+客户端首先建立连接
+客户端返回enter_room事件两个用户id
+服务端返回has_enter事件，发送room_id，和history列表
+完成初始化步骤
+
+接下来进行聊天，
+用户提交后，发送new_message事件，包含user_id，room_id,content，服务端返回accept_message事件
+
+定义接受函数accept_message事件，显示新的消息。
+
 

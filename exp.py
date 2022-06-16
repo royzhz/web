@@ -3,6 +3,7 @@ from flask import Flask
 from flask_login import LoginManager
 import os
 import sys
+from flask_socketio import SocketIO
 
 db = SQLAlchemy()
 app = Flask(__name__,static_folder='apps/static')
@@ -16,3 +17,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'mypass'
 db.init_app(app)
 login_manager = LoginManager(app)
+socketio = SocketIO()

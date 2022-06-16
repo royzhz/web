@@ -4,6 +4,7 @@ from flask_login import login_user,logout_user,login_required,current_user
 import sql
 from sql import User,add_user,find_user,load_user
 
+import os
 
 basicbp=Blueprint("basic",__name__,template_folder='templates')
 
@@ -11,7 +12,7 @@ basicbp=Blueprint("basic",__name__,template_folder='templates')
 def main():
     if current_user.is_authenticated:
         pages=sql.get_page()
-        return redirect(url_for("basic.home",pages=pages,user_id=current_user.id))
+        return render_template("main.html",pages=pages,user_id=current_user.id)
     else:
         return redirect(url_for("basic.login"))
 
@@ -48,6 +49,10 @@ def register():
             flash("已经被注册！")
             return render_template('register.html')
         else:
+            file_route=os.getcwd()+"\\apps\\static\\images\\"+user_no
+            isExists = os.path.exists(file_route)
+            if(isExists==False):
+                os.makedirs(file_route)
             add_user(user_no,user_name,password,intro,"normal",dor)
             return redirect(url_for("basic.login"))
 

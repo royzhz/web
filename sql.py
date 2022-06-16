@@ -4,11 +4,16 @@ from flask_login import UserMixin
 from exp import login_manager
 import datetime
 
+
 @login_manager.user_loader
 def load_user(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
     user = User.query.get(int(user_id))  # 用 ID 作为 User 模型的 主键查询对应的用户
     return user
 
+user_room = db.Table('user_room',db.metadata,
+    db.Column('user_id', db.ForeignKey('user.id'),primary_key=True),
+    db.Column('room_id', db.ForeignKey('chatroom.id'),primary_key=True)
+)
 
 
 class User(UserMixin,db.Model):
@@ -21,6 +26,8 @@ class User(UserMixin,db.Model):
 
     user_post=db.relationship('post',backref='user_post')#发的帖子
     user_post_comments = db.relationship('post_comment', backref='user_post_comments')#发的评论
+
+    user_chat_room = db.relationship("chatroom", secondary=user_room,backref=db.backref('user_create', lazy="dynamic")) # 用户对应的聊天室
 
     def set_password(self,password):
         self.password=generate_password_hash(password)
@@ -52,7 +59,17 @@ class post_comment(db.Model):
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
     update_at = db.Column(db.DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)
 
+class chatroom(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    chat_message = db.relationship('message', backref='chat_message')#对应的聊天记录
+    #user_create = db.relationship("User", secondary=user_room)#聊天室的使用者
 
+class message(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    room=db.Column(db.String(20))
+    user_id=db.Column(db.Integer)
+    content=db.Column(db.Text)
+    belong_room=db.Column(db.Integer, db.ForeignKey('chatroom.id'))#发的人
 
 def add_user(id,name,password,intro,auth,dorm):
     u = User(id=id,name=name, password=generate_password_hash(password),intro=intro,auth=auth, dormitory=dorm)
@@ -95,3 +112,35 @@ def find_post(post_id):
     user=User.query.get(p.publish_user_id)
     time=p.update_at
     return p.post_content,time,comment,user
+
+def create_chat_room(user_id_1,user_id_2):
+    user1 = User.query.get(user_id_1)
+    user2 = User.query.get(user_id_2)
+    new_chat_room=chatroom()
+    user1.user_chat_room.append(new_chat_room)
+    user2.user_chat_room.append(new_chat_room)
+
+    db.session.commit()
+    return new_chat_room.id
+
+def get_room_number(user_id_1,user_id_2):
+    user1 = User.query.get(user_id_1)
+    all_room=user1.user_chat_room
+    for i in all_room:
+        user=i.user_create.all()
+        if user[0].id==user_id_2 or user[1].id==user_id_2:
+            return i.id
+    return create_chat_room(user_id_1,user_id_2)
+
+def get_room_history(room_id):
+    now_room=chatroom.query.get(room_id)
+    chat_history=now_room.chat_message
+    return chat_history
+
+def add_new_chat(room_id,user_id,content):
+    now_room = chatroom.query.get(room_id)
+    newmessage=message(room=int(room_id),
+                       user_id=user_id,
+                       content=content)
+    now_room.chat_message.append(newmessage)
+    db.session.commit()
