@@ -45,6 +45,7 @@ def register():
         password = request.form['password']
         intro=request.form['t_text']
         dor=request.form['dor']
+        classname = request.form['classname']
         if(find_user(user_name)!=False):
             flash("已经被注册！")
             return render_template('register.html')
@@ -53,10 +54,13 @@ def register():
             isExists = os.path.exists(file_route)
             if(isExists==False):
                 os.makedirs(file_route)
-            add_user(user_no,user_name,password,intro,"normal",dor)
+            add_user(user_no,user_name,password,intro,"student",dor,classname)
             return redirect(url_for("basic.login"))
-
-    return render_template('register.html')
+    classroom=sql.class_room.query.all()
+    class_list=[]
+    for i in classroom:
+        class_list.append(i.classname)
+    return render_template('register.html',class_list=class_list)
 
 @basicbp.route('/home/<user_id>')
 def home(user_id):
@@ -91,3 +95,36 @@ def viewpost(post_id):
 
     post_content,time,comment,user=sql.find_post(post_id)
     return render_template("post.html",post_content=post_content,time=time,comment=comment,user=user)
+
+@basicbp.route('/myclassroom')
+def myclass():
+    return redirect(url_for('basic.show_class_numbers',class_id=current_user.class_id))
+
+@basicbp.route('/mynotice')
+def mynotice():
+    return redirect(url_for('basic.show_class_notice',class_id=current_user.class_id))
+
+
+@basicbp.route('/myclass/<class_id>')
+def show_class_numbers(class_id):
+    teacher,classroom=sql.get_user_class(class_id)
+    teacher_name=""
+    student_id=[]
+    student_name=[]
+    for i in classroom:
+        if i.id!=teacher:
+            student_id.append(i.id)
+            student_name.append(i.name)
+        else:
+            teacher_name=i.name
+
+    return render_template("classroom.html",teacher_id=teacher
+                           ,teacher_name=teacher_name
+                           ,student_id=student_id
+                           ,student_name=student_name)
+
+@basicbp.route('/myclass/<class_id>/notice')
+def show_class_notice(class_id):
+    notice=sql.get_class_notice(class_id)
+
+    return render_template("notice.html",notice=notice)

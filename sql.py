@@ -16,6 +16,13 @@ user_room = db.Table('user_room',db.metadata,
 )
 
 
+class class_room(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    classname = db.Column(db.String(20))
+    teacher_in_class = db.Column(db.Integer)
+    user_in_class = db.relationship('User', backref='user_in_class')
+    notice_in_class = db.relationship('notice', backref='notice_in_class')
+
 class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 主键，学号
     name = db.Column(db.String(20))  # 名字
@@ -24,8 +31,12 @@ class User(UserMixin,db.Model):
     auth=db.Column(db.String(20))#权限
     dormitory=db.Column(db.String(20))#宿舍名
 
+    class_id = db.Column(db.Integer, db.ForeignKey('class_room.id'))#对应的班级
+
     user_post=db.relationship('post',backref='user_post')#发的帖子
     user_post_comments = db.relationship('post_comment', backref='user_post_comments')#发的评论
+
+    user_notice = db.relationship('notice', backref='user_post')  # 发的帖子
 
     user_chat_room = db.relationship("chatroom", secondary=user_room,backref=db.backref('user_create', lazy="dynamic")) # 用户对应的聊天室
 
@@ -33,6 +44,14 @@ class User(UserMixin,db.Model):
         self.password=generate_password_hash(password)
     def check_password(self,password):
         return check_password_hash(self.password,password)
+
+class notice(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    notice_content=db.Column(db.Text)
+    publish_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    belong_class = db.Column(db.Integer, db.ForeignKey('class_room.id'))
+    create_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
 
 class post(db.Model):#帖子
     id=db.Column(db.Integer, primary_key=True)
@@ -71,9 +90,13 @@ class message(db.Model):
     content=db.Column(db.Text)
     belong_room=db.Column(db.Integer, db.ForeignKey('chatroom.id'))#发的人
 
-def add_user(id,name,password,intro,auth,dorm):
+def add_user(id,name,password,intro,auth,dorm,class_name):
     u = User(id=id,name=name, password=generate_password_hash(password),intro=intro,auth=auth, dormitory=dorm)
     db.session.add(u)
+    if(auth=="teacher"):
+        add_class_teacher(class_name,id)
+    elif(auth=="student"):
+        add_class_student(class_name,id)
     db.session.commit()
 
 def publish_post(poster_id,content,status="visible"):
@@ -144,3 +167,37 @@ def add_new_chat(room_id,user_id,content):
                        content=content)
     now_room.chat_message.append(newmessage)
     db.session.commit()
+
+def add_new_class(class_name):
+    classroom=class_room(classname=class_name)
+    db.session.add(classroom)
+    db.session.commit()
+
+def add_class_teacher(class_name,teacher_id):
+    classroom=class_room.query.filter_by(classname=class_name).first()
+    classroom.teacher_in_class=teacher_id
+    user = User.query.get(teacher_id)
+    classroom.user_in_class.append(user)
+    db.session.commit()
+
+def add_class_student(class_name,student_id):
+    classroom=class_room.query.filter_by(classname=class_name).first()
+    user = User.query.get(student_id)
+    classroom.user_in_class.append(user)
+    db.session.commit()
+
+def get_user_class(class_id):
+    classroom=class_room.query.get(class_id)
+    user_list=classroom.user_in_class
+    return classroom.teacher_in_class,user_list
+
+def add_notice(class_id,publisher_id,content):
+    new=notice(notice_content=content)
+    classroom = class_room.query.get(class_id)
+    user=User.query.get(publisher_id)
+    classroom.notice_in_class.append(new)
+    user.user_notice.append(new)
+    db.session.commit()
+
+def get_class_notice(class_id):
+    return class_room.query.get(class_id).notice

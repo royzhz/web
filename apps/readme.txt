@@ -58,4 +58,25 @@ update_at：发表时间
 
 定义接受函数accept_message事件，显示新的消息。
 
+6/20日新需求：
+在注册时传入class_list列表，为各个班级名称，制作下拉栏，选择一个班级，以classname返回班级字符串
+
+查看班级时直接跳到url_for("basic.myclass")
+需要“classroom.html”传入老师的id，昵称（两个变量）
+名称为teacher_id,teacher_name
+
+和学生id列表，昵称列表（两个列表一一对应）
+名称为student_id,student_name
+头像在\apps\static\images\对应的id文件夹下
+点击头像或者项目需要跳转url_for("chat.index",user_id=对应id)开始聊天
+
+班级公告：
+跳转到url_for("basic.mynotice")
+需要文件“notice.html，传入notice列表，一次性全部，和拥有属性：
+notice_content
+publish_user_id
+create_at
+可以对主页的post稍作修改即可
+
+最后要写一下修改个人信息的html，网站基本就完成
 

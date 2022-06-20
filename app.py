@@ -1,3 +1,4 @@
+import sql
 from exp import app,socketio
 
 #cd venv/Scripts
@@ -25,8 +26,13 @@ def initdb(drop):#"""Initialize the database."""
         db.drop_all()
     db.create_all()
     if drop:
-        add_user(1234567,"roy","1234567","","admin","")
-        add_user(1234568, "rrr", "1234567", "", "admin", "")
+        sql.add_new_class("20级计算机科学1班")
+        add_user(1234567,"张老师","1234567","","teacher","","20级计算机科学1班")
+        add_user(1234561, "同学1", "1234567", "", "student", "","20级计算机科学1班")
+        add_user(1234562, "同学2", "1234567", "", "student", "", "20级计算机科学1班")
+        add_user(1234563, "同学3", "1234567", "", "student", "", "20级计算机科学1班")
+        sql.add_notice(1,1234567,"notice1")
+
         publish_post(1234567,"test1")
         publish_post(1234567, "test2")
         publish_post(1234567, "test3")
@@ -39,6 +45,5 @@ def initdb(drop):#"""Initialize the database."""
         publish_post(1234567, "test10")
         publish_post(1234567, "test11")
         add_post_comment(1234567,1,"test11")
-        create_chat_room(1234567,1234568)
         db.session.commit()
     click.echo('Initialized database.')  # 输出提示信息
