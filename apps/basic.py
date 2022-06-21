@@ -10,11 +10,11 @@ basicbp=Blueprint("basic",__name__,template_folder='templates')
 
 @basicbp.route('/',methods = ['GET', 'POST'])
 def main():
-    if current_user.is_authenticated:
-        pages=sql.get_page()
-        return render_template("main.html",pages=pages,user_id=current_user.id)
+    pages=sql.get_page()
+    if(current_user.is_authenticated==False):
+        return render_template("main.html",pages=pages,islogin=current_user.is_authenticated)
     else:
-        return redirect(url_for("basic.login"))
+        return render_template("main.html", pages=pages,user_id=current_user.id,islogin=current_user.is_authenticated)
 
 @basicbp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -111,7 +111,7 @@ def mynotice():
     return redirect(url_for('basic.show_class_notice',class_id=current_user.class_id))
 
 @basicbp.route('/single_notice/<notice_id>')
-def mynotice(notice_id):
+def shownotice(notice_id):
     if (current_user.is_authenticated==False):
         return redirect(url_for("basic.login"))
     return redirect(url_for('basic.show_class_notice',class_id=current_user.class_id))
