@@ -50,6 +50,7 @@ class User(UserMixin,db.Model):
 
 class notice(db.Model):
     id=db.Column(db.Integer, primary_key=True)
+    head=db.Column(db.Text)
     notice_content=db.Column(db.Text)
     publish_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     belong_class = db.Column(db.Integer, db.ForeignKey('class_room.id'))
@@ -204,8 +205,8 @@ def get_user_class(class_id):
     user_list=classroom.user_in_class
     return classroom.teacher_in_class,user_list
 
-def add_notice(class_id,publisher_id,content):
-    new=notice(notice_content=content)
+def add_notice(class_id,publisher_id,head,content):
+    new=notice(head=head,notice_content=content)
     classroom = class_room.query.get(class_id)
     user=User.query.get(publisher_id)
     classroom.notice_in_class.append(new)

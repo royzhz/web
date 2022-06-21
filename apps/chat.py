@@ -22,6 +22,8 @@ def history_list(history):
 
 @postbp.route('/<user_id>')
 def index(user_id):
+    if (current_user.is_authenticated==False):
+        return redirect(url_for("basic.login"))
     user=sql.find_user(user_id)
     return render_template('chat.html', user_me=current_user.id,user_other=user.id,async_mode=socketio.async_mode)
 
