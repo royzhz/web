@@ -4,9 +4,9 @@ from flask_login import login_user,logout_user,login_required,current_user
 import sql
 from sql import User,add_user,find_user,load_user
 
+import os
+
 basicbp=Blueprint("basic",__name__,template_folder='templates')
-
-
 
 @basicbp.route('/',methods = ['GET', 'POST'])
 @basicbp.route('/main',methods = ['GET', 'POST'])
@@ -30,7 +30,7 @@ def login():
             login_user(user)
             #if(user.auth=="admin"):
                 #return redirect(url_for("basic.admin"))
-            return redirect(url_for("basic.main",user_id=user.id))
+            return redirect(url_for("basic.home",user_id=user.id))
         else:
             flash("密码不正确")
             return render_template("login.html")
@@ -51,6 +51,10 @@ def register():
             flash("已经被注册！")
             return render_template('register.html')
         else:
+            file_route=os.getcwd()+"\\apps\\static\\images\\"+user_no
+            isExists = os.path.exists(file_route)
+            if(isExists==False):
+                os.makedirs(file_route)
             add_user(user_no,user_name,password,intro,"student",dor,classname)
             return redirect(url_for("basic.login"))
     classroom=sql.class_room.query.all()
@@ -76,13 +80,7 @@ def submitpost():
     if request.method=="POST":
         user_no=current_user.id
         post_content=request.form['post_content']
-        picture = request.files.get('picture')
-        postid=sql.publish_post(user_no, post_content)
-
-        path=sql.post_route+str(postid)+"\\"
-        if picture.filename!='':
-            picture.filename="1.jpg"
-            picture.save(path)
+        sql.publish_post(user_no, post_content)
 
         return redirect(url_for("basic.main"))
     return render_template("submit_post.html")
@@ -101,14 +99,10 @@ def viewpost(post_id):
 
 @basicbp.route('/myclassroom')
 def myclass():
-    if (current_user.is_authenticated==False):
-        return redirect(url_for("basic.login"))
     return redirect(url_for('basic.show_class_numbers',class_id=current_user.class_id))
 
 @basicbp.route('/mynotice')
 def mynotice():
-    if (current_user.is_authenticated==False):
-        return redirect(url_for("basic.login"))
     return redirect(url_for('basic.show_class_notice',class_id=current_user.class_id))
 
 @basicbp.route('/single_notice/<notice_id>')
@@ -119,8 +113,6 @@ def shownotice(notice_id):
 
 @basicbp.route('/myclass/<class_id>')
 def show_class_numbers(class_id):
-    if (current_user.is_authenticated==False):
-        return redirect(url_for("basic.login"))
     teacher,classroom=sql.get_user_class(class_id)
     teacher_name=""
     student_id=[]
@@ -139,16 +131,6 @@ def show_class_numbers(class_id):
 
 @basicbp.route('/myclass/<class_id>/notice')
 def show_class_notice(class_id):
-    if (current_user.is_authenticated==False):
-        return redirect(url_for("basic.login"))
     notice=sql.get_class_notice(class_id)
-
-    return render_template("allnotice.html",notice=notice)
-
-@basicbp.route('/myclass/<class_id>/notice/<notice_id>')
-def show_single_notice(class_id,notice_id):
-    if (current_user.is_authenticated==False):
-        return redirect(url_for("basic.login"))
-    notice=sql.notice.query.get(int(notice_id))
 
     return render_template("notice.html",notice=notice)
