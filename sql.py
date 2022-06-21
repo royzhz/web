@@ -3,7 +3,10 @@ from exp import db
 from flask_login import UserMixin
 from exp import login_manager
 import datetime
+import os
 
+user_route=os.getcwd() + "\\apps\\static\\images\\user\\"
+post_route=os.getcwd() + "\\apps\\static\\images\\post\\"
 
 @login_manager.user_loader
 def load_user(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
@@ -47,6 +50,7 @@ class User(UserMixin,db.Model):
 
 class notice(db.Model):
     id=db.Column(db.Integer, primary_key=True)
+    head=db.Column(db.Text)
     notice_content=db.Column(db.Text)
     publish_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     belong_class = db.Column(db.Integer, db.ForeignKey('class_room.id'))
@@ -92,6 +96,10 @@ class message(db.Model):
 
 def add_user(id,name,password,intro,auth,dorm,class_name):
     u = User(id=id,name=name, password=generate_password_hash(password),intro=intro,auth=auth, dormitory=dorm)
+    file_route = user_route + str(id)
+    isExists = os.path.exists(file_route)
+    if (isExists == False):
+        os.makedirs(file_route)
     db.session.add(u)
     if(auth=="teacher"):
         add_class_teacher(class_name,id)
@@ -104,6 +112,12 @@ def publish_post(poster_id,content,status="visible"):
     user=User.query.get(poster_id)
     user.user_post.append(new)
     db.session.commit()
+    file_route = post_route + str(new.id)
+    isExists = os.path.exists(file_route)
+    if (isExists == False):
+        os.makedirs(file_route)
+    return new.id
+
 
 def add_post_comment(user_id,post_id,content,status="visible"):
     new=post_comment(comment_content=content,status=status)
@@ -191,8 +205,8 @@ def get_user_class(class_id):
     user_list=classroom.user_in_class
     return classroom.teacher_in_class,user_list
 
-def add_notice(class_id,publisher_id,content):
-    new=notice(notice_content=content)
+def add_notice(class_id,publisher_id,head,content):
+    new=notice(head=head,notice_content=content)
     classroom = class_room.query.get(class_id)
     user=User.query.get(publisher_id)
     classroom.notice_in_class.append(new)

@@ -58,7 +58,7 @@ update_at：发表时间
 
 定义接受函数accept_message事件，显示新的消息。
 
-6/20日新需求：
+6/21日新需求：
 在注册时传入class_list列表，为各个班级名称，制作下拉栏，选择一个班级，以classname返回班级字符串
 
 查看班级时直接跳到url_for("basic.myclass")
@@ -67,16 +67,24 @@ update_at：发表时间
 
 和学生id列表，昵称列表（两个列表一一对应）
 名称为student_id,student_name
-头像在\apps\static\images\对应的id文件夹下
+头像在\apps\static\images\user\对应的id文件夹下,为head.jpg
 点击头像或者项目需要跳转url_for("chat.index",user_id=对应id)开始聊天
 
 班级公告：
 跳转到url_for("basic.mynotice")
-需要文件“notice.html，传入notice列表，一次性全部，和拥有属性：
+需要文件“allnotice.html，传入notice列表，一次性全部，和拥有属性：
+head
 notice_content
 publish_user_id
 create_at
-可以对主页的post稍作修改即可
+可以对主页稍作修改即可
+需要文件“notice.html，传入单个notice，显示单个notice,和帖子一样，需要notice_id
 
-最后要写一下修改个人信息的html，网站基本就完成
+最后要写一下修改个人信息的html，网站基本就完成，可以不完成
+上传新帖子要上传picture图片，也可以没有，若上传多个请和我说，现在只支持一个，传入为picture,读取时为1.jpg
+通知界面需要分为head和content，在外只显示head，点击进入显示全部
+上传notice需要head,content,publish_user_id,class_id
+目前急需完成主页，用户主页，单独的帖子界面，通知界面（总体和单独），聊天界面的完成和美化工作，其余可以暂缓完成，
+在最上面4个按钮最左边加一个“我”的按钮，点击跳跃到用户主页，有时间可以改成头像形式
+可以不完成的，比如上传帖子这种可以不演示，直接在数据库操作
 
