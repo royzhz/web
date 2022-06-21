@@ -9,6 +9,7 @@ import os
 basicbp=Blueprint("basic",__name__,template_folder='templates')
 
 @basicbp.route('/',methods = ['GET', 'POST'])
+@basicbp.route('/main',methods = ['GET', 'POST'])
 def main():
     if current_user.is_authenticated:
         pages=sql.get_page()
