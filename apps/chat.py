@@ -8,7 +8,7 @@ from flask import session
 import sql
 from sql import User,add_user,find_user,load_user
 
-postbp=Blueprint("post",__name__,url_prefix='/chat',template_folder='templates')
+postbp=Blueprint("chat",__name__,url_prefix='/chat',template_folder='templates')
 
 def history_list(history):
 

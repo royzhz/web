@@ -29,7 +29,7 @@ def login():
             login_user(user)
             #if(user.auth=="admin"):
                 #return redirect(url_for("basic.admin"))
-            return redirect(url_for("basic.home",user_id=user.id))
+            return redirect(url_for("basic.main",user_id=user.id))
         else:
             flash("密码不正确")
             return render_template("login.html")
@@ -50,10 +50,6 @@ def register():
             flash("已经被注册！")
             return render_template('register.html')
         else:
-            file_route=os.getcwd()+"\\apps\\static\\images\\"+user_no
-            isExists = os.path.exists(file_route)
-            if(isExists==False):
-                os.makedirs(file_route)
             add_user(user_no,user_name,password,intro,"student",dor,classname)
             return redirect(url_for("basic.login"))
     classroom=sql.class_room.query.all()
@@ -79,7 +75,13 @@ def submitpost():
     if request.method=="POST":
         user_no=current_user.id
         post_content=request.form['post_content']
-        sql.publish_post(user_no, post_content)
+        picture = request.files.get('picture')
+        postid=sql.publish_post(user_no, post_content)
+
+        path=sql.post_route+str(postid)+"\\"
+        if picture.filename!='':
+            picture.filename="1.jpg"
+            picture.save(path)
 
         return redirect(url_for("basic.main"))
     return render_template("submit_post.html")
