@@ -1,8 +1,19 @@
-<nav class="navbar navbar-fixed-top navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <img style="height:50px;overflow:hidden;"
+<div>
+    <nav class="navbar navbar-default navbar-static navbar-fixed-top" role="navigation" style="background:#F5F5F5">
+        <div class="container">
+            <div class="navbar-header">
+                <img style="height:50px;overflow:hidden;"
                      src="{{ url_for('static', filename='images/img_title.png') }}"/>
+            </div>
+            <div class="pull-right">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">校园</a></li>
+                    <li><a href={{url_for("basic.myclass")}}>班级</a></li>
+                    <li><a href="#">通知</a></li>
+                    <li><a href="#">消息</a></li>
+                </ul>
+            </div><!-- /.container -->
         </div>
-    </div><!-- /.container -->
-</nav><!-- /.navbar -->
+    </nav><!-- /.navbar -->
+</div>
+<br><br>

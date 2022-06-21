@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}"
+    <title>班级</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link href="{{ url_for('static', filename='css/minecss.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/minejs.js') }}"></script>
+</head>
+<body>
+{% include "common/header.html" %}<!--引入网页的头部模板-->
+<div class="container">
+    <h2>教师：</h2>
+    <img class="img-circle" style="width:60px;height:60px;"
+         src="{{ url_for('static', filename='images/roy.jpg') }}"/>
+    <span style="vertical-align:middle;font-size: 30px">{{teacher_name}}</span>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+        <h2>学生：</h2>
+        </thead>
+        <tbody>
+        {% for name in student_name %}
+        <tr>
+            <td>
+                <!--                <a href={{url_for("chat.index",user_id=student_id[loop.index0])}}>-->
+                <img class="img-circle" style="width:30px;height:30px;"
+                     src="{{ url_for('static', filename='images/roy.jpg') }}"/>
+                <span style="vertical-align:middle;font-size: 20px">{{name}}</span>
+                <!--                </a>-->
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
