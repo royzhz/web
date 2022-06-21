@@ -43,7 +43,7 @@ def initdb(drop):#"""Initialize the database."""
         publish_post(1234567, "test8")
         publish_post(1234567, "test9")
         publish_post(1234567, "test10")
-        publish_post(1234567, "test11")
+        publish_post(1234567, "6月22日起，合肥暂停七天一次的常态化区域免费核酸检测。合肥市将继续做好来（返）肥人员、重点人群检测服务工作。")
         add_post_comment(1234567,1,"test11")
         db.session.commit()
     click.echo('Initialized database.')  # 输出提示信息

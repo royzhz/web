@@ -67,7 +67,7 @@ def home(user_id):
     post=user.user_post
     user_intro=user.intro
 
-    return render_template("home.html",user_name=user.name,user_intro=user_intro,all_post=post)
+    return render_template("home.html",user_name=user.name,user_intro=user_intro,all_post=post,user_id=current_user.id)
 
 @basicbp.route('/sbmitpost', methods=['GET', 'POST'])
 def submitpost():
@@ -85,7 +85,7 @@ def submitpost():
             picture.save(path)
 
         return redirect(url_for("basic.main"))
-    return render_template("submit_post.html")
+    return render_template("submit_post.html",user_id=current_user.id)
 
 @basicbp.route('/post/<post_id>', methods=['GET', 'POST'])
 def viewpost(post_id):
@@ -97,7 +97,7 @@ def viewpost(post_id):
         sql.add_post_comment(user_no,post_id,post_content)
 
     post_content,time,comment,user=sql.find_post(post_id)
-    return render_template("post.html",post_content=post_content,time=time,comment=comment,user=user)
+    return render_template("post.html",post_content=post_content,time=time,comment=comment,user=user,user_id=current_user.id)
 
 @basicbp.route('/myclassroom')
 def myclass():
@@ -135,7 +135,8 @@ def show_class_numbers(class_id):
     return render_template("classroom.html",teacher_id=teacher
                            ,teacher_name=teacher_name
                            ,student_id=student_id
-                           ,student_name=student_name)
+                           ,student_name=student_name
+                           ,user_id=current_user.id)
 
 @basicbp.route('/myclass/<class_id>/notice')
 def show_class_notice(class_id):
@@ -143,7 +144,7 @@ def show_class_notice(class_id):
         return redirect(url_for("basic.login"))
     notice=sql.get_class_notice(class_id)
 
-    return render_template("allnotice.html",notice=notice)
+    return render_template("allnotice.html",notice=notice,user_id=current_user.id)
 
 @basicbp.route('/myclass/<class_id>/notice/<notice_id>')
 def show_single_notice(class_id,notice_id):
@@ -151,4 +152,4 @@ def show_single_notice(class_id,notice_id):
         return redirect(url_for("basic.login"))
     notice=sql.notice.query.get(int(notice_id))
 
-    return render_template("notice.html",notice=notice)
+    return render_template("notice.html",notice=notice,user_id=current_user.id)
