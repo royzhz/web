@@ -60,6 +60,19 @@
                 </div>
                 <hr>
                 <div class="form-group">
+                    <!--        班级输入框            -->
+                    <label class="control-label col-sm-4 col-md-4">班级:</label>
+
+                    <div class="col-md-8">
+                        <select class="form-control" name="classname" id="classname">
+                            {% for class in class_list %}
+                            <option>{{class}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
                     <label class="control-label col-sm-4 col-md-4">简介:</label>
                     <div class="col-md-8">
                         <textarea class="form-control" rows="2" name="t_text" placeholder="请输入个人简介"></textarea>
