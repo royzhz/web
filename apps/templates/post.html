@@ -22,7 +22,7 @@
     <div class="row">
 
             <img class="img-circle" style="width:80px;height:80px;"
-                 src="{{ url_for('static', filename='images/roy.jpg') }}"/>
+                 src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"/>
             <span style="vertical-align:middle;font-size: 50px">{{user.name}}</span>
             <hr>
             <p>
@@ -57,7 +57,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <img class="img-circle" style="width:40px;height:40px;"
-                         src="{{ url_for('static', filename='images/roy.jpg') }}"/>
+                         src="{{url_for('static', filename='images/user/'+comment.belong_user|string+'/head.jpg')}}"/>
                     <span style="vertical-align:middle;font-size: 30px">{{comment.belong_user.name}}</span>
                 </div>
                 <div class="panel-body">
