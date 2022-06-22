@@ -77,8 +77,8 @@ var FileInput = function () {
 {% include "common/header.html" %}<!--引入网页的头部模板-->
 
 <div class="container">
-    <h1 class="text-info">{{user_name}},请写下你想说的话</h1>
-    <br><br><br><br><br>
+
+    <br><br><br><br><br><br><br><br><br>
     <div class="row">
         <div class="col-md-2">
             <img class="img-thumbnail " style="width:150px;height:150px;"
@@ -89,7 +89,7 @@ var FileInput = function () {
     <br><br>
     <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="name">文本框</label>
+                <h1 class="text-info">{{user_name}},请写下你想说的话</h1>
             <textarea class="form-control" rows="3" placeholder="这一刻的想法..." name="post_content"></textarea>
         </div>
         <div class="form-group">

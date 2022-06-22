@@ -15,7 +15,7 @@
 <div class="container">
     <h2>教师：</h2>
     <img class="img-circle" style="width:60px;height:60px;"
-         src="{{ url_for('static', filename='images/roy.jpg') }}"/>
+         src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"/>
     <span style="vertical-align:middle;font-size: 30px">{{teacher_name}}</span>
     <hr>
     <table class="table table-striped">
@@ -28,7 +28,7 @@
             <td>
                 <a href={{url_for("chat.index",user_id=student_id[loop.index0])}}>
                     <img class="img-circle" style="width:30px;height:30px;"
-                         src="{{ url_for('static', filename='images/roy.jpg') }}"/>
+                         src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"/>
                     <span style="vertical-align:middle;font-size: 20px">{{name}}</span>
                 </a>
             </td>
