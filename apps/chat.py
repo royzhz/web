@@ -35,12 +35,13 @@ def allchat():
     has_check=[]
     name=[]
     id=[]
+    chat_history=[]
     for i in room:
-        his=sql.get_room_history(i.id)
+        his=i.chat_message
         if (len(his) == 0):
             continue
         message=his[-1]#获得最后一条记录
-        if(message.user_id!=current_user.id and message==0):
+        if(message.user_id!=current_user.id and message.has_receive==0):#不是我发的，且没读过
             has_check.append(1)
         else:
             has_check.append(0)
@@ -50,7 +51,12 @@ def allchat():
         else:
             id.append(his.user2)
             name.append(sql.find_user(his.user2).name)
-    return has_check,name,id
+        chat_history.append(message.content)
+    return render_template("allchat.html",
+                           has_check=has_check,
+                           name=name,
+                           id=id,
+                           chat_history=chat_history)
 
 
 @socketio.on('connect', namespace='/test')
