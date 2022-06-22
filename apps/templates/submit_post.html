@@ -18,7 +18,7 @@
 $(function () {
     //0.初始化fileinput
     var oFileInput = new FileInput();
-    oFileInput.Init("txt_file", "/api/OrderApi/ImportOrder");
+    oFileInput.Init("picture", "/api/OrderApi/ImportOrder");
 });
 //初始化fileinput
 var FileInput = function () {
@@ -51,7 +51,7 @@ var FileInput = function () {
     });
 
     //导入文件上传完成之后的事件
-    $("#txt_file").on("fileuploaded", function (event, data, previewId, index) {
+    $("#picture").on("fileuploaded", function (event, data, previewId, index) {
         $("#myModal").modal("hide");
         var data = data.response.lstOrderImport;
         if (data == undefined) {
@@ -87,14 +87,14 @@ var FileInput = function () {
         <div class="col-md-4 text-info">用户名：{{user_name}}<br>个人简介：{{user_intro}}</div>
     </div>
     <br><br>
-    <form class="form-horizontal" role="form" method="post">
+    <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">文本框</label>
             <textarea class="form-control" rows="3" placeholder="这一刻的想法..." name="post_content"></textarea>
         </div>
         <div class="form-group">
 
-            <input type="file" name="picture" id="txt_file" multiple class="file-loading"/>
+            <input type="file" name="picture" id="picture" multiple class="file-loading"/>
 
         </div>
         <div class="form-group">
