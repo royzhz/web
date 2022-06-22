@@ -51,6 +51,7 @@ class User(UserMixin,db.Model):
 
 class notice(db.Model):
     id=db.Column(db.Integer, primary_key=True)
+    publish_user_name=db.Column(db.String(20))
     head=db.Column(db.Text)
     notice_content=db.Column(db.Text)
     publish_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -89,7 +90,7 @@ class post_comment(db.Model):
 class chatroom(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     number = db.Column(db.Integer)
-    user1=db.Column(db.Integer)
+    user1 = db.Column(db.Integer)
     user2 = db.Column(db.Integer)
     chat_message = db.relationship('message', backref='chat_message')#对应的聊天记录
     update_at = db.Column(db.DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)
@@ -99,7 +100,9 @@ class message(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     room=db.Column(db.String(20))
     user_id=db.Column(db.Integer)
+    recevier_id=db.Column(db.Integer)
     content=db.Column(db.Text)
+    has_receive=db.Column(db.Integer)
     belong_room=db.Column(db.Integer, db.ForeignKey('chatroom.id'))#发的人
 
 def add_user(id,name,password,intro,auth,dorm,class_name):
@@ -156,7 +159,7 @@ def find_post(post_id):
     comment=p.post_comments
     user=User.query.get(p.publish_user_id)
     time=p.update_at
-    return p.post_content,time,comment,user
+    return p.post_content,p.picture_number,time,comment,user
 
 def create_chat_room(user_id_1,user_id_2):
     user1 = User.query.get(user_id_1)
@@ -182,13 +185,25 @@ def get_room_history(room_id):
     chat_history=now_room.chat_message
     return chat_history
 
-def add_new_chat(room_id,user_id,content):
-    now_room = chatroom.query.get(room_id)
+def add_new_chat(room_id,user_id,recevier_id,content):
+    now_room = chatroom.query.get(int(room_id))
     newmessage=message(room=int(room_id),
-                       user_id=user_id,
-                       content=content)
+                       user_id=int(user_id),
+                       recevier_id=int(recevier_id),
+                       content=content,
+                       has_receive=0)
     now_room.number+=1
     now_room.chat_message.append(newmessage)
+    db.session.commit()
+    return newmessage.id
+
+def ensure_chat_receive(chat_id):
+    chat=message.query.get(int(chat_id))
+    chat.has_receive=1
+    db.session.commit()
+
+def ensure_chat_object_receive(chat):
+    chat.has_receive=1
     db.session.commit()
 
 def add_new_class(class_name):
@@ -215,15 +230,17 @@ def get_user_class(class_id):
     return classroom.teacher_in_class,user_list
 
 def add_notice(class_id,publisher_id,head,content):
-    new=notice(head=head,notice_content=content)
+
     classroom = class_room.query.get(class_id)
     user=User.query.get(publisher_id)
+    new=notice(head=head,notice_content=content,publish_user_name=user.name)
     classroom.notice_in_class.append(new)
     user.user_notice.append(new)
     db.session.commit()
 
 def get_class_notice(class_id):
-    return class_room.query.get(class_id).notice
+    classroom=class_room.query.get(class_id)
+    return classroom.notice_in_class
 
 def get_user_chat_room(user_id):
     room=chatroom.query.filter(or_((chatroom.user1 == user_id),(chatroom.user2 == user_id))).order_by(chatroom.update_at.desc()).all()

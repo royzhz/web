@@ -27,6 +27,32 @@ def index(user_id):
     user=sql.find_user(user_id)
     return render_template('chat.html', user_me=current_user.id,user_other=user.id,async_mode=socketio.async_mode)
 
+@postbp.route('/allchat')
+def allchat():
+    if (current_user.is_authenticated==False):
+        return redirect(url_for("basic.login"))
+    room=sql.get_user_chat_room(current_user.id)#获得所有房间
+    has_check=[]
+    name=[]
+    id=[]
+    for i in room:
+        his=sql.get_room_history(i.id)
+        if (len(his) == 0):
+            continue
+        message=his[-1]#获得最后一条记录
+        if(message.user_id!=current_user.id and message==0):
+            has_check.append(1)
+        else:
+            has_check.append(0)
+        if his.user1==current_user.id:
+            id.append(his.user1)
+            name.append(sql.find_user(his.user1).name)
+        else:
+            id.append(his.user2)
+            name.append(sql.find_user(his.user2).name)
+    return has_check,name,id
+
+
 @socketio.on('connect', namespace='/test')
 def user_connect():
     emit('connect_confirm')
@@ -38,7 +64,13 @@ def enter_room(message):
     user_id2=(message['user_id2'])
     roomid=sql.get_room_number(user_id1,user_id2)
     history=sql.get_room_history(roomid)
+    if(len(history)>0):
+        last=history[-1]
+        if last.recevier_id==current_user.id:#是接收者
+            sql.ensure_chat_object_receive(last)
+
     history=history_list(history)
+
     roomid=str(roomid)
     join_room(roomid)
     emit('has_enter',{'room_id':roomid,
@@ -48,9 +80,18 @@ def enter_room(message):
 def new_message(message):
     room_id=message['room_id']
     user_id=message['user_id']
+    recevier_id = message['recevier_id']
     content=message['content']
-    sql.add_new_chat(room_id,user_id,content)
+    id=sql.add_new_chat(room_id,user_id,recevier_id,content)
     emit('accept_message',
          {'data': content,
-          'publisher':user_id},
+          'publisher':user_id,
+          'id':id},
            room=room_id)
+
+@socketio.on('ensure_receive', namespace='/test')
+def ensure_message(message):
+    meassge_id=int(message['meassge_id'])
+    sql.ensure_chat_receive(meassge_id)
+
+
