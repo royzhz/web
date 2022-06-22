@@ -5,9 +5,11 @@ from exp import login_manager
 import datetime
 import os
 from operator import or_
+import shutil
 
 user_route=os.getcwd() + "\\apps\\static\\images\\user\\"
 post_route=os.getcwd() + "\\apps\\static\\images\\post\\"
+default_head=os.getcwd() + "\\apps\\static\\images\\default.jpg"
 
 @login_manager.user_loader
 def load_user(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
@@ -112,6 +114,11 @@ def add_user(id,name,password,intro,auth,dorm,class_name):
     isExists = os.path.exists(file_route)
     if (isExists == False):
         os.makedirs(file_route)
+
+    user_head_route=user_route+str(id)+'\\'+"head.jpg"
+    if os.path.exists(user_head_route) ==False:
+        shutil.copyfile(default_head,user_route+str(id)+'\\'+"head.jpg")
+
     db.session.add(u)
     if(auth=="teacher"):
         add_class_teacher(class_name,id)
@@ -145,7 +152,7 @@ def query_post():
     return u
 
 def get_page():
-    pagination = post.query.order_by(post.update_at.desc()).paginate(1, per_page=10, error_out=False)
+    pagination = post.query.order_by(post.update_at.desc()).all()
     return pagination
 
 

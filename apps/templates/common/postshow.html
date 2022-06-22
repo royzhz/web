@@ -1,7 +1,7 @@
 <div class="row">
     <div>
 
-        {% for post in pages.items %}
+        {% for post in pages %}
         <!--            <a href={{url_for("basic.viewpost",post_id=post.id)}}></a>-->
         <div class="panel panel-default">
             <div class="panel-body row">
@@ -23,7 +23,7 @@
                              src="{{url_for('static', filename='images/post/'+post.id|string+'/'+post.picture_number|string+'.jpg')}}">
                     </div>
                     {% endif %}
-                    <p><small>{{post.update_at}}</small></p>
+                    <p style="color:SlateGray "><small>{{post.update_at.strftime("%Y-%m-%d %H:%M:%S") }}</small></p>
                 </div>
             </div>
         </div>
