@@ -50,7 +50,7 @@
                     {% if post.picture_number %}
                     <div style="height:150px">
                         <img class="img-thumbnail" style="max-height:100%;width:auto"
-                             src="{{url_for('static', filename='images/post/'+post.id|string+'/'+picture_number|string+'.jpg')}}">
+                             src="{{url_for('static', filename='images/post/'+post.id|string+'/'+post.picture_number|string+'.jpg')}}">
                     </div>
                     {% endif %}
                     <p><small>{{post.update_at}}</small></p>
