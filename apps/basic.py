@@ -15,7 +15,7 @@ def main():
     if(current_user.is_authenticated==False):
         return render_template("main.html",pages=pages,islogin=current_user.is_authenticated)
     else:
-        return render_template("main.html", pages=pages,user_id=current_user.id,islogin=current_user.is_authenticated)
+        return render_template("main.html", pages=pages,user_id=current_user.id,islogin=current_user.is_authenticated,user_name=current_user.name)
 
 @basicbp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -25,7 +25,7 @@ def login():
         user=find_user(user_name)
         if user==False:
             flash("不存在该用户！")
-            return render_template("main.html")
+            return render_template("login.html")
         if(user.check_password(password)):
             login_user(user)
             #if(user.auth=="admin"):
@@ -77,7 +77,11 @@ def submitpost():
         user_no=current_user.id
         post_content=request.form['post_content']
         picture = request.files.get('picture')
-        postid=sql.publish_post(user_no, post_content)
+
+        if picture.filename != '':
+            postid=sql.publish_post(user_no, post_content,1)
+        else:
+            postid = sql.publish_post(user_no, post_content, 0)
 
         path=sql.post_route+str(postid)+"\\"
         if picture.filename!='':
@@ -85,7 +89,7 @@ def submitpost():
             picture.save(path)
 
         return redirect(url_for("basic.main"))
-    return render_template("submit_post.html",user_id=current_user.id)
+    return render_template("submit_post.html",user_id=current_user.id,user_name=current_user.name)
 
 @basicbp.route('/post/<post_id>', methods=['GET', 'POST'])
 def viewpost(post_id):
@@ -97,7 +101,13 @@ def viewpost(post_id):
         sql.add_post_comment(user_no,post_id,post_content)
 
     post_content,time,comment,user=sql.find_post(post_id)
-    return render_template("post.html",post_content=post_content,time=time,comment=comment,user=user,user_id=current_user.id)
+    return render_template("post.html",
+                           post_content=post_content,
+                           time=time,
+                           comment=comment,
+                           user=user,
+                           user_id=current_user.id,
+                           user_name=current_user.name)
 
 @basicbp.route('/myclassroom')
 def myclass():
@@ -136,7 +146,8 @@ def show_class_numbers(class_id):
                            ,teacher_name=teacher_name
                            ,student_id=student_id
                            ,student_name=student_name
-                           ,user_id=current_user.id)
+                           ,user_id=current_user.id
+                           ,user_name=current_user.name)
 
 @basicbp.route('/myclass/<class_id>/notice')
 def show_class_notice(class_id):
@@ -144,7 +155,7 @@ def show_class_notice(class_id):
         return redirect(url_for("basic.login"))
     notice=sql.get_class_notice(class_id)
 
-    return render_template("allnotice.html",notice=notice,user_id=current_user.id)
+    return render_template("allnotice.html",notice=notice,user_id=current_user.id,user_name=current_user.name)
 
 @basicbp.route('/myclass/<class_id>/notice/<notice_id>')
 def show_single_notice(class_id,notice_id):
@@ -152,4 +163,4 @@ def show_single_notice(class_id,notice_id):
         return redirect(url_for("basic.login"))
     notice=sql.notice.query.get(int(notice_id))
 
-    return render_template("notice.html",notice=notice,user_id=current_user.id)
+    return render_template("notice.html",notice=notice,user_id=current_user.id,user_name=current_user.name)

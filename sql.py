@@ -65,6 +65,9 @@ class post(db.Model):#帖子
     update_at = db.Column(db.DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)
 
     publish_user_id=db.Column(db.Integer, db.ForeignKey('user.id'))#发的人
+    publish_user_name=db.Column(db.String(20))
+
+    picture_number=db.Column(db.Integer)
     post_comments=db.relationship('post_comment',backref='post_comments')#评论
 
     status=db.Column(db.String(20))#状态,比如删除/隐藏
@@ -107,9 +110,9 @@ def add_user(id,name,password,intro,auth,dorm,class_name):
         add_class_student(class_name,id)
     db.session.commit()
 
-def publish_post(poster_id,content,status="visible"):
-    new=post(post_content=content,status=status)
+def publish_post(poster_id,content,number,status="visible"):
     user=User.query.get(poster_id)
+    new=post(post_content=content,status=status,publish_user_name=user.name,picture_number=number)
     user.user_post.append(new)
     db.session.commit()
     file_route = post_route + str(new.id)
