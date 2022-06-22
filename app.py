@@ -32,6 +32,8 @@ def initdb(drop):#"""Initialize the database."""
         add_user(1234562, "同学2", "1234567", "", "student", "", "20级计算机科学1班")
         add_user(1234563, "同学3", "1234567", "", "student", "", "20级计算机科学1班")
         sql.add_notice(1,1234567,"notice1","noticecontent")
+        sql.create_chat_room(1234567,1234561)
+        sql.create_chat_room(1234567, 1234562)
 
         publish_post(1234567,"test1",0)
         publish_post(1234567, "test2",0)
@@ -43,7 +45,7 @@ def initdb(drop):#"""Initialize the database."""
         publish_post(1234567, "test8",0)
         publish_post(1234567, "test9",0)
         publish_post(1234567, "test10",0)
-        publish_post(1234567, "6月22日起，合肥暂停七天一次的常态化区域免费核酸检测。合肥市将继续做好来（返）肥人员、重点人群检测服务工作。",0)
+        publish_post(1234567, "6月22日起，合肥暂停七天一次的常态化区域免费核酸检测。合肥市将继续做好来（返）肥人员、重点人群检测服务工作。",1)
         add_post_comment(1234567,1,"test11")
         db.session.commit()
     click.echo('Initialized database.')  # 输出提示信息

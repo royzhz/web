@@ -37,7 +37,7 @@ def enter_room(message):
     user_id1=(message['user_id1'])
     user_id2=(message['user_id2'])
     roomid=sql.get_room_number(user_id1,user_id2)
-    history=sql.get_room_history(roomid)[-10:]
+    history=sql.get_room_history(roomid)
     history=history_list(history)
     roomid=str(roomid)
     join_room(roomid)

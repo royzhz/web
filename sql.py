@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from exp import login_manager
 import datetime
 import os
+from operator import or_
 
 user_route=os.getcwd() + "\\apps\\static\\images\\user\\"
 post_route=os.getcwd() + "\\apps\\static\\images\\post\\"
@@ -87,7 +88,11 @@ class post_comment(db.Model):
 
 class chatroom(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.Integer)
+    user1=db.Column(db.Integer)
+    user2 = db.Column(db.Integer)
     chat_message = db.relationship('message', backref='chat_message')#对应的聊天记录
+    update_at = db.Column(db.DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)
     #user_create = db.relationship("User", secondary=user_room)#聊天室的使用者
 
 class message(db.Model):
@@ -156,7 +161,7 @@ def find_post(post_id):
 def create_chat_room(user_id_1,user_id_2):
     user1 = User.query.get(user_id_1)
     user2 = User.query.get(user_id_2)
-    new_chat_room=chatroom()
+    new_chat_room=chatroom(number=0,user1=user_id_1,user2=user_id_2)
     user1.user_chat_room.append(new_chat_room)
     user2.user_chat_room.append(new_chat_room)
 
@@ -182,6 +187,7 @@ def add_new_chat(room_id,user_id,content):
     newmessage=message(room=int(room_id),
                        user_id=user_id,
                        content=content)
+    now_room.number+=1
     now_room.chat_message.append(newmessage)
     db.session.commit()
 
@@ -218,3 +224,8 @@ def add_notice(class_id,publisher_id,head,content):
 
 def get_class_notice(class_id):
     return class_room.query.get(class_id).notice
+
+def get_user_chat_room(user_id):
+    room=chatroom.query.filter(or_((chatroom.user1 == user_id),(chatroom.user2 == user_id))).order_by(chatroom.update_at.desc()).all()
+    return room
+
