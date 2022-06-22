@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <title>班级通知</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link href="{{ url_for('static', filename='css/minecss.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/minejs.js') }}"></script>
+
+</head>
+
+<body>
+
+{% include "common/header.html" %}<!--引入网页的头部模板-->
+
+<div>
+    <img style="max-width:100%;overflow:hidden;" src="{{ url_for('static', filename='images/header-tree.jpg') }}">
+</div>
+
+<div class="container">
+    <div class="row">
+        <h1>班级通知：</h1>
+        {% for notice in notice %}
+        <!--            <a href={{url_for("basic.viewpost",post_id=post.id)}}></a>-->
+        <div class="panel panel-default">
+            <div class="panel-body row">
+                <div class="col-md-12">
+                    <img class="img-circle" style="width:40px;height:40px;"
+                         src="{{url_for('static', filename='images/user/'+notice.publish_user_id|string+'/head.jpg')}}">
+                    <span style="vertical-align:middle;font-size: 20px">{{notice.publish_user_name}}</span>
+
+                    <a href={{url_for("basic.show_single_notice",class_id=class_id,notice_id=notice.id)}}>
+                        <div class="pull-right">查看详情</div>
+                    </a>
+
+                </div>
+                <div class="col-md-offset-1 col-md-11">
+                    <p>{{notice.head}}</p>
+                    <p><small>{{notice.update_at}}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </div><!--/row-->
+
+    {% include "common/footer.html" %}<!--引入网页的底部模板-->
+</div>
+
+
+</body>
+</html>
