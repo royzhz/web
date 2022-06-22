@@ -20,7 +20,7 @@
 <br><br><br>
 <div class="container">
     <div class="row">
-        <div class="col-md-9">
+
             <img class="img-circle" style="width:80px;height:80px;"
                  src="{{ url_for('static', filename='images/roy.jpg') }}"/>
             <span style="vertical-align:middle;font-size: 50px">{{user.name}}</span>
@@ -68,8 +68,8 @@
             </div>
             {% endfor %}
         </div>
-        {% include "common/sidebar.html" %}<!--引入网页的侧边模板-->
-    </div>
+
+
 </div>
 </body>
 </html>
