@@ -18,8 +18,27 @@
 </head>
 
 <body>
-<!--{% if islogin %}-->
+{% if islogin %}
 {% include "common/header.html" %}<!--引入网页的头部模板-->
+{% else %}
+<div>
+    <nav class="navbar navbar-default navbar-static navbar-fixed-top" role="navigation" style="background:#F5F5F5">
+        <div class="container">
+            <div class="navbar-header">
+                <img style="height:50px;overflow:hidden;"
+                     src="{{ url_for('static', filename='images/img_title.png') }}"/>
+            </div>
+            <div class="pull-right">
+                <ul class="nav navbar-nav">
+                    <li><a href={{url_for("basic.register")}}>注册</a></li>
+                    <li><a href={{url_for("basic.login")}}>登录</a></li>
+                </ul>
+            </div><!-- /.container -->
+        </div>
+    </nav><!-- /.navbar -->
+</div>
+<br><br>
+{% endif %}
 <div>
     <img style="max-width:100%;overflow:hidden;" src="{{ url_for('static', filename='images/header-tree.jpg') }}">
 </div>
@@ -74,24 +93,8 @@
     {% include "common/postshow.html" %}<!--引入网页的底部模板-->
     {% include "common/footer.html" %}<!--引入网页的底部模板-->
 </div>
-<!--{% else %}-->
-<!--<div>-->
-<!--    <nav class="navbar navbar-default navbar-static navbar-fixed-top" role="navigation" style="background:#F5F5F5">-->
-<!--        <div class="container">-->
-<!--            <div class="navbar-header">-->
-<!--                <img style="height:50px;overflow:hidden;"-->
-<!--                     src="{{ url_for('static', filename='images/img_title.png') }}"/>-->
-<!--            </div>-->
-<!--            <div class="pull-right">-->
-<!--                <ul class="nav navbar-nav">-->
-<!--                    <li><a href={{url_for("basic.register")}}>注册</a></li>-->
-<!--                    <li><a href={{url_for("basic.login")}}>登录</a></li>-->
-<!--                </ul>-->
-<!--            </div>&lt;!&ndash; /.container &ndash;&gt;-->
-<!--        </div>-->
-<!--    </nav>&lt;!&ndash; /.navbar &ndash;&gt;-->
-<!--</div>-->
-<!--<br><br>-->
+
+
 
 <!--<div>-->
 <!--    <img style="max-width:100%;overflow:hidden;" src="{{ url_for('static', filename='images/header-tree.jpg') }}">-->
@@ -144,6 +147,6 @@
 <!--    </div>&lt;!&ndash;/row&ndash;&gt;-->
 <!--    {% include "common/footer.html" %}&lt;!&ndash;引入网页的底部模板&ndash;&gt;-->
 <!--</div>-->
-<!--{% endif %}-->
+
 </body>
 </html>
