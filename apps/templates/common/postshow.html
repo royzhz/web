@@ -1,0 +1,52 @@
+<div class="row">
+    <div>
+        <ul>
+            {% for post in pages.items %}
+
+            <div class="panel panel-default">
+                <div class="panel-body row">
+                    <div class="col-md-2">
+                        <img class="img-circle" style="width:24px;height:24px;"
+                             src="{{url_for('static', filename='images/user/'+post.publish_user_id|string+'/head.jpg')}}">
+                    </div>
+                    <div class="col-md-10">
+                        <h2>{{post.publish_user_name}}</h2>
+                        <p>{{post.post_content}}</p>
+                    </div>
+
+                    {% if post.id %}
+                    <img class="img-thumbnail " style="height:200px;"
+                         src="{{ url_for('static', filename='images/{{post.id}}.jpg') }}"/>
+                    {% endif %}
+                    <hr>
+                    <p><small>{{post.update_at}}</small></p>
+                </div>
+            </div>
+            </a>
+            {% endfor %}
+        </ul>
+        <nav class="paginate">
+            <nav>
+                {% if pages.has_prev %}
+                <button onclick="window.location.href='page={{ pages.prev_num }}'">上一页</button>
+                {% endif %}
+
+                <button>第{{ pages.page }}页</button>
+
+                {% if pages.has_next and pages.page < 5 %}
+                <button onclick="window.location.href='main?page={{pages.next_num}}'">下一页</button>
+                {% else %}
+                <button>最后一页</button>
+                {% endif %}
+
+                <nav class="first-last-page">
+                    <button onclick="window.location.href='main?page=1'">首页</button>
+                    <button onclick="window.location.href='main?page={{ pages.pages}}'">尾页</button>
+                    <button onclick="window.location.href='main'">全部显示</button>
+                </nav>
+            </nav>
+
+
+        </nav>
+    </div>
+</div><!--/row-->
