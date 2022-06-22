@@ -10,7 +10,7 @@
                     <li><a href="#">校园</a></li>
                     <li><a href={{url_for("basic.myclass")}}>班级</a></li>
                     <li><a href="#">通知</a></li>
-                    <li><a href="#">消息</a></li>
+                    <li><a href={{url_for("basic.submitpost")}}>分享</a></li>
                     <li><a href={{url_for("basic.home",user_id=user_id)}}>
                         <img class="img-circle" style="width:24px;height:24px;"
                              src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}">
