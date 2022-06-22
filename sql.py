@@ -79,6 +79,7 @@ class post(db.Model):#帖子
 class post_comment(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     comment_content=db.Column(db.Text)#评论内容
+    publish_user_name = db.Column(db.String(20))
     status = db.Column(db.String(20))
 
     belong_post=db.Column(db.Integer, db.ForeignKey('post.id'))#对应的帖子
@@ -131,9 +132,10 @@ def publish_post(poster_id,content,number,status="visible"):
 
 
 def add_post_comment(user_id,post_id,content,status="visible"):
-    new=post_comment(comment_content=content,status=status)
+
     user=User.query.get(user_id)
     post_c=post.query.get(post_id)
+    new=post_comment(comment_content=content,status=status,publish_user_name=user.name)
     user.user_post_comments.append(new)
     post_c.post_comments.append(new)
     db.session.commit()
