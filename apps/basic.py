@@ -72,7 +72,14 @@ def home(user_id):
     isyourself=0
     if(current_user.id==user_id):
         isyourself=1
-    return render_template("home.html",user_name=user.name,user_intro=user_intro,all_post=post,user_id=current_user.id,class_id=current_user.class_id,isyourself=isyourself)
+    return render_template("home.html",user_name=current_user.name,
+                           home_name=user.name,
+                           home_id=user.id,
+                           user_intro=user_intro,
+                           all_post=post,
+                           user_id=current_user.id,
+                           class_id=current_user.class_id,
+                           isyourself=isyourself)
 
 @basicbp.route('/sbmitpost', methods=['GET', 'POST'])
 def submitpost():

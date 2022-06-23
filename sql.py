@@ -1,15 +1,20 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from exp import db
 from flask_login import UserMixin
-from exp import login_manager
+from exp import login_manager,WIN
 import datetime
 import os
 from operator import or_
 import shutil
 
-user_route=os.getcwd() + "\\apps\\static\\images\\user\\"
-post_route=os.getcwd() + "\\apps\\static\\images\\post\\"
-default_head=os.getcwd() + "\\apps\\static\\images\\default.jpg"
+if WIN:
+    user_route=os.getcwd() + "\\apps\\static\\images\\user\\"
+    post_route=os.getcwd() + "\\apps\\static\\images\\post\\"
+    default_head=os.getcwd() + "\\apps\\static\\images\\default.jpg"
+else:
+    user_route=os.getcwd() + "/apps/static/images/user/"
+    post_route=os.getcwd() + "/apps/static/images/post/"
+    default_head=os.getcwd() + "/apps/static/images/default.jpg"
 
 @login_manager.user_loader
 def load_user(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
