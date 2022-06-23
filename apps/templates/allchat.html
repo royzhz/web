@@ -43,7 +43,7 @@
                                 <img class="img-circle pull-left" style="width:80px;height:80px;"
                                      src="{{url_for('static', filename='images/user/'+id|string+'/head.jpg')}}">
                             </div>
-                            {% if has_check %}
+                            {% if has_check[loop.index0] %}
                             <div class="notice" style="width:16px;
                                                         height:16px;
                                                         background-color:#f00;
