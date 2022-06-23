@@ -28,11 +28,17 @@
         {% for name in student_name %}
         <tr>
             <td>
+                {% if student_id[loop.index0]!=user_id %}
                 <a href={{url_for("chat.index",user_id=student_id[loop.index0])}}>
                     <img class="img-circle" style="width:30px;height:30px;"
                          src="{{url_for('static', filename='images/user/'+student_id[loop.index0]|string+'/head.jpg')}}"/>
                     <span style="vertical-align:middle;font-size: 20px">{{name}}</span>
                 </a>
+                {% else %}
+                <img class="img-circle" style="width:30px;height:30px;"
+                     src="{{url_for('static', filename='images/user/'+student_id[loop.index0]|string+'/head.jpg')}}"/>
+                <span style="vertical-align:middle;font-size: 20px">{{name}}</span>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
