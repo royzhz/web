@@ -29,13 +29,43 @@
 
                 </div>
                 <div class="col-md-offset-1 col-md-11">
-                    <h1 class ="text-center">{{notice.head}}</h1>
+                    <h1 class="text-center">{{notice.head}}</h1>
                     <p>{{notice.notice_content}}</p>
-                    <p class="pull-right"style="color:SlateGray "><small>{{notice.create_at.strftime("%Y-%m-%d %H:%M:%S")}}</small></p>
+                    <p class="pull-right" style="color:SlateGray "><small>{{notice.create_at.strftime("%Y-%m-%d
+                        %H:%M:%S")}}</small></p>
                 </div>
             </div>
         </div>
-
+        {% if is_teacher %}
+        <table class="table table-striped">
+            <caption>未确认学生名单：</caption>
+            <thead>
+            <tr>
+                <th>姓名</th>
+                <th>学号</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for student in has_not_received %}
+            <tr>
+                <td>
+                    <img class="img-circle" style="width:30px;height:30px;"
+                         src="{{url_for('static', filename='images/user/'+student.id|string+'/head.jpg')}}"/>
+                    <span style="vertical-align:middle;font-size: 20px">{{student.name}}</span>
+                </td>
+                <td>{{student.id}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <form class="form-horizontal" id="mainform" method="post">
+            <div class="form-group">
+                <input type="submit" value="确认收到" class="btn btn-success pull-right">
+            </div>
+        </form>
+        {{get_flashed_messages()[0]}}
+        {% endif %}
 
 
     </div><!--/row-->

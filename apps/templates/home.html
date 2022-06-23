@@ -20,6 +20,7 @@
 
 <div class="container">
     <h1 class="text-info">{{user_name}}的主页</h1>
+
     <br><br><br><br><br>
     <div class="row">
         <div class="col-md-2">
@@ -28,7 +29,7 @@
         </div>
         <div class="col-md-4 text-info">用户名：{{user_name}}<br>个人简介：{{user_intro}}</div>
     </div>
-    <br><br>
+    <br>    <a href={{url_for("chat.index",user_id=user_id)}}><div style="font-size:20px">聊天</div></a><br>
     <div class="row">
 
         {% for post in all_post %}

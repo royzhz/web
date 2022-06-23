@@ -30,7 +30,11 @@
         for (var iter in chat_history){
           var new_iter=chat_history[iter];
           for(var p in new_iter){
-            $('#log').append('<p>' +p+':'+new_iter[p] + '</p>')
+          if(p==user_me){
+          $('#log').append('<div style="text-align:right">' +p+':'+new_iter[p] + '</div>')
+          }
+          else{$('#log').append('<div >' +p+':'+new_iter[p] + '</div>')}
+
           }
         }
         var div = document.getElementById('log');
@@ -39,7 +43,7 @@
 
       //定义监听函数，接受消息
       socket.on('accept_message', function(msg) {
-        $('#log').append('<p>' + msg['publisher']+':'+msg['data'] + '</p>');
+        $('#log').append('<div class="text-father"><div class="text-right">' + msg['publisher']+':'+msg['data'] + '</div></div>');
         if(parseInt(msg['publisher'])==user_other)
           socket.emit('ensure_receive',{'meassge_id':msg['id']})
         var div = document.getElementById('log');
@@ -55,6 +59,9 @@
       });
   
     });
+
+
+
 
 
 
@@ -76,23 +83,42 @@
 .log::-webkit-scrollbar {
     width: 0;
 }
+.text-father{
+width:100%;
+height:50px;
+}
+.text-right{
+text-align:right;
+font-size:20px;
+width:auto;
+background:#1E90FF;
+position:absolute;
+right:0;
+}
+
+
+
 
 </style>
 {% include "common/header.html" %}<!--引入网页的头部模板-->
 
 <div class="text-center" style="margin-top:20px;background:#00BFFF;color:white;height:100px">
     <br>
-    <h1 style="margin-top:10px;">{{user_name}}</h1>
+    <h1 style="margin-top:10px;">{{other_name}}</h1>
 </div>
 <div class="container">
     <div class="row myCenter">
         <div class="col-xs-12 col-md-10 col-center-block">
-            <div id="log" class="col-xs-12 col-md-12 log"></div>
-        </div>
-            <form id="send_room" method="POST" action="#">
-                <input type="text" name="room_data" id="room_data" placeholder="Message">
-                <input type="submit" value="Send to Room">
+            <div id="log" class="log row"></div>
+            <hr>
+            <form id="send_room" method="POST" action="#" role="form">
+                <div class="form-group row">
+                    <div class="col-md-10">
+                    <input type="text" class="form-control" name="room_data" id="room_data" placeholder="Message">
+                    </div>
+                    <input type="submit" class="btn btn-success pull-right" value="Send to Room">
+                </div>
             </form>
-
+        </div>
     </div>
 </div>
