@@ -59,6 +59,7 @@ class notice(db.Model):
     publish_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     belong_class = db.Column(db.Integer, db.ForeignKey('class_room.id'))
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
+    has_received=db.Column(db.PickleType)
 
 
 class post(db.Model):#帖子
@@ -242,7 +243,7 @@ def add_notice(class_id,publisher_id,head,content):
 
     classroom = class_room.query.get(class_id)
     user=User.query.get(publisher_id)
-    new=notice(head=head,notice_content=content,publish_user_name=user.name)
+    new=notice(head=head,notice_content=content,publish_user_name=user.name,has_received=[])
     classroom.notice_in_class.append(new)
     user.user_notice.append(new)
     db.session.commit()

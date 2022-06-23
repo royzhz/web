@@ -28,6 +28,7 @@ def index(user_id):
     return render_template('chat.html',
                            user_me=current_user.id,
                            user_other=user.id,
+                           other_name=user.name,
                            user_id=current_user.id,
                            user_name=current_user.name,
                            class_id=current_user.class_id,
@@ -59,6 +60,7 @@ def allchat():
             name.append(sql.find_user(i.user2).name)
 
         chat_history.append(message.content)
+        print(has_check)
     return render_template("allchat.html",
                            has_check=has_check,
                            name=name,
@@ -83,6 +85,7 @@ def enter_room(message):
     if(len(history)>0):
         last=history[-1]
         if last.recevier_id==current_user.id:#是接收者
+            #print(last.content,last.has_receive,"receive")
             sql.ensure_chat_object_receive(last)
 
     history=history_list(history)

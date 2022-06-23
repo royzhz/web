@@ -69,8 +69,10 @@ def home(user_id):
     user=load_user(user_id)
     post=user.user_post
     user_intro=user.intro
-
-    return render_template("home.html",user_name=user.name,user_intro=user_intro,all_post=post,user_id=current_user.id,class_id=current_user.class_id)
+    isyourself=0
+    if(current_user.id==user_id):
+        isyourself=1
+    return render_template("home.html",user_name=user.name,user_intro=user_intro,all_post=post,user_id=current_user.id,class_id=current_user.class_id,isyourself=isyourself)
 
 @basicbp.route('/sbmitpost', methods=['GET', 'POST'])
 def submitpost():
@@ -104,6 +106,7 @@ def viewpost(post_id):
 
     post_content,number,time,comment,user=sql.find_post(post_id)
     return render_template("post.html",
+                           post_id=post_id,
                            post_content=post_content,
                            picture_number=number,
                            time=time,
@@ -139,6 +142,8 @@ def show_class_numbers(class_id):
     teacher_name=""
     student_id=[]
     student_name=[]
+
+    is_teacher=teacher==current_user.id
     for i in classroom:
         if i.id!=teacher:
             student_id.append(i.id)
@@ -152,7 +157,8 @@ def show_class_numbers(class_id):
                            ,student_name=student_name
                            ,user_id=current_user.id
                            ,user_name=current_user.name
-                           ,class_id=current_user.class_id)
+                           ,class_id=current_user.class_id
+                           ,is_teacher=is_teacher)
 
 @basicbp.route('/myclass/<class_id>/notice')
 def show_class_notice(class_id):
@@ -162,10 +168,30 @@ def show_class_notice(class_id):
 
     return render_template("allnotice.html",notice=notice,user_id=current_user.id,user_name=current_user.name,class_id=current_user.class_id)
 
-@basicbp.route('/myclass/<class_id>/notice/<notice_id>')
+@basicbp.route('/myclass/<class_id>/notice/<notice_id>', methods=['GET', 'POST'])
 def show_single_notice(class_id,notice_id):
     if (current_user.is_authenticated==False):
         return redirect(url_for("basic.login"))
-    notice=sql.notice.query.get(int(notice_id))
 
-    return render_template("notice.html",notice=notice,user_id=current_user.id,user_name=current_user.name,class_id=current_user.class_id)
+    notice=sql.notice.query.get(int(notice_id))
+    if request.method == "POST":
+        notice.has_received.append(current_user.id)
+        sql.db.session.commit()
+
+
+    has_not_received=[]
+    classroom=sql.class_room.query.get(int(class_id))
+    is_teacher=classroom.teacher_in_class==current_user.id
+
+    if(is_teacher):
+        for i in classroom.user_in_class:
+            if i.id not in notice.has_received and i.id!=classroom.teacher_in_class:
+                has_not_received.append(i)
+
+    return render_template("notice.html",
+                           notice=notice,
+                           user_id=current_user.id,
+                           user_name=current_user.name,
+                           class_id=current_user.class_id,
+                           is_teacher=is_teacher,
+                           has_not_received=has_not_received)
