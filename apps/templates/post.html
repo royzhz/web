@@ -22,15 +22,15 @@
     <div class="row">
 
             <img class="img-circle" style="width:80px;height:80px;"
-                 src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"/>
+                 src="{{url_for('static', filename='images/user/'+user.id|string+'/head.jpg')}}"/>
             <span style="vertical-align:middle;font-size: 50px">{{user.name}}</span>
             <hr>
             <p>
                 {{post_content}}
             </p>
-            {% if post_id %}
+            {% if picture_number %}
             <img class="img-thumbnail " style="height:200px;"
-                 src="{{ url_for('static', filename='images/{{post.id}}.jpg') }}"/>
+                 src="{{ url_for('static', filename='images/post/'+post_id|string+'/'+picture_number|string+'.jpg') }}"/>
             {% endif %}
             <hr>
             <p><small>{{time}}</small></p>
