@@ -40,7 +40,7 @@
       //定义监听函数，接受消息
       socket.on('accept_message', function(msg) {
         $('#log').append('<p>' + msg['publisher']+':'+msg['data'] + '</p>');
-        if(parseInt(msg['publisher'])!=user_other)
+        if(parseInt(msg['publisher'])==user_other)
           socket.emit('ensure_receive',{'meassge_id':msg['id']})
         var div = document.getElementById('log');
         log.scrollTop = log.scrollHeight;}
