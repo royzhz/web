@@ -17,6 +17,7 @@
 <body>
 
 {% include "common/header.html" %}<!--引入网页的头部模板-->
+<br><br>
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
@@ -26,19 +27,15 @@
                          src="{{url_for('static', filename='images/user/'+notice.publish_user_id|string+'/head.jpg')}}">
                     <span style="vertical-align:middle;font-size: 20px">{{notice.publish_user_name}}</span>
 
-                    <a href={{url_for("basic.show_single_notice",class_id=class_id,notice_id=notice.id)}}>
-                        <div class="pull-right">查看详情</div>
-                    </a>
-
                 </div>
                 <div class="col-md-offset-1 col-md-11">
-                    <h1>{{notice.head}}</h1>
+                    <h1 class ="text-center">{{notice.head}}</h1>
                     <p>{{notice.notice_content}}</p>
-                    <p><small>{{notice.update_at}}</small></p>
+                    <p class="pull-right"><small>{{notice.create_at}}</small></p>
                 </div>
             </div>
         </div>
-        {% endfor %}
+
 
 
     </div><!--/row-->

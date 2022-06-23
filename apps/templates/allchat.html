@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <title>我的消息</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link href="{{ url_for('static', filename='css/minecss.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/minejs.js') }}"></script>
+
+</head>
+<body style="background: url(../static/images/top_image.jpg) no-repeat;background-size:100%;font-size: 15px;">
+{% include "common/header.html" %}<!--引入网页的头部模板-->
+
+<div class="container">
+    <h1 class="text-info">{{user_name}}的消息</h1>
+    <br><br><br><br><br>
+    <div class="row">
+        <div class="col-md-2">
+            <img class="img-thumbnail " style="width:150px;height:150px;"
+                 src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"/>
+        </div>
+        <div class="col-md-4 text-info">用户名：{{user_name}}</div>
+    </div>
+    <br><br>
+    <div class="row">
+
+        {% for id in id %}
+        <a href={{url_for("chat.index",user_id=id)}}>
+            <div class="panel panel-default">
+                <div class="panel-body row">
+                    <div class="col-md-12">
+
+<!--                        <div class="wrap" style="width:50px;-->
+<!--    margin-bottom:10px;-->
+<!--    position:relative;">-->
+<!--                            <div class="img">-->
+<!--                                <img class="img-circle pull-left" style="width:40px;height:40px;"-->
+<!--                                     src="{{url_for('static', filename='images/user/'+id|string+'/head.jpg')}}">-->
+<!--                            </div>-->
+<!--                            <div class="notice" style="width:20px;-->
+<!--    height:20px;-->
+<!--    line-height:20px;-->
+<!--    font-size:10px;-->
+<!--    color:#fff;-->
+<!--    text-align:center;-->
+<!--    background-color:#f00;-->
+<!--    border-radius:50%;-->
+<!--    position:absolute;-->
+<!--    right:-10px;-->
+<!--    top:-10px;-->
+<!--">13</div>-->
+<!--                        </div>-->
+                        <img class="img-circle pull-left" style="width:40px;height:40px;"
+                             src="{{url_for('static', filename='images/user/'+id|string+'/head.jpg')}}">
+                        <div>
+                            <span style="vertical-align:middle;font-size: 20px">{{name[loop.index0]}}</span>
+                            <p>{{chat_history[loop.index0]}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+
+
+</body>
+</html>
