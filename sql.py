@@ -6,6 +6,7 @@ import datetime
 import os
 from operator import or_
 import shutil
+import copy
 
 if WIN:
     user_route=os.getcwd() + "\\apps\\static\\images\\user\\"
@@ -261,3 +262,9 @@ def get_user_chat_room(user_id):
     room=chatroom.query.filter(or_((chatroom.user1 == user_id),(chatroom.user2 == user_id))).order_by(chatroom.update_at.desc()).all()
     return room
 
+def add_receive(notice,user_id):
+    list = copy.deepcopy(notice.has_received)
+    if user_id not in list:
+        list.append(user_id)
+        notice.has_received = list
+        db.session.commit()
