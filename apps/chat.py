@@ -25,7 +25,13 @@ def index(user_id):
     if (current_user.is_authenticated==False):
         return redirect(url_for("basic.login"))
     user=sql.find_user(user_id)
-    return render_template('chat.html', user_me=current_user.id,user_other=user.id,async_mode=socketio.async_mode)
+    return render_template('chat.html',
+                           user_me=current_user.id,
+                           user_other=user.id,
+                           user_id=current_user.id,
+                           user_name=current_user.name,
+                           class_id=current_user.class_id,
+                           async_mode=socketio.async_mode)
 
 @postbp.route('/allchat')
 def allchat():
@@ -56,7 +62,10 @@ def allchat():
                            has_check=has_check,
                            name=name,
                            id=id,
-                           chat_history=chat_history)
+                           chat_history=chat_history,
+                           user_id=current_user.id,
+                           user_name=current_user.name,
+                           class_id=current_user.class_id)
 
 
 @socketio.on('connect', namespace='/test')
