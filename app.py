@@ -36,6 +36,7 @@ def initdb(drop):#"""Initialize the database."""
         add_user(1234562, "同学2", "1234567", "", "student", "", "20级计算机科学1班")
         add_user(1234563, "同学3", "1234567", "", "student", "", "20级计算机科学1班")
         sql.add_notice(1,1234567,"notice1","noticecontent")
+        sql.add_notice(1, 1234567, "notice2", "noticecontent")
         sql.create_chat_room(1234567,1234561)
         sql.create_chat_room(1234567, 1234562)
 
