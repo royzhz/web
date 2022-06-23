@@ -81,13 +81,13 @@ def submitpost():
         post_content=request.form['post_content']
         picture = request.files.get('picture')
 
-        if picture is not None:
-            postid=sql.publish_post(user_no, post_content,1)
+        if picture.filename!='':
+            postid= sql.publish_post(user_no, post_content, 1)
         else:
             postid = sql.publish_post(user_no, post_content, 0)
 
         path=sql.post_route+str(postid)+'\\'+"1.jpg"
-        if picture is not None:
+        if picture.filename!='':
             picture.save(path)
 
         return redirect(url_for("basic.main"))
