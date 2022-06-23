@@ -193,7 +193,7 @@
           var new_iter=chat_history[iter];
           for(var p in new_iter){
           if(p==user_me){
-          $('#log').append('<div class="chat_right"><div style="chat_right_item_1 "><img style="width:50px;height:50px;" class="pull-right img-circle" src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"></div><div class="chat_right_item_2"><div class="chat_right_time"></div><div class="chat_right_content">'+new_iter[p] + '</div></div></div>')
+                $('#log').append('<div class="chat_right"><div class="chat_right_item_1 "><img style="width:50px;height:50px;" class="pull-left img-circle" src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"></div><div class="chat_right_item_2"><div class="chat_right_time"></div><div class="chat_right_content">'+new_iter[p]+ '</div></div></div>');
           }else{$('#log').append('<div class="chat_left clearfix"><div class="chat_left_item_1 "><img style="width:50px;height:50px;" class="pull-left img-circle" src="{{url_for('static', filename='images/user/'+user_other|string+'/head.jpg')}}"></div><div class="chat_left_item_2"><div class="chat_time"></div><div class="chat_left_content">'+new_iter[p] + '</div></div></div>')}
 
           }
