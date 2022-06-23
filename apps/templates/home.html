@@ -25,12 +25,12 @@
     <div class="row">
         <div class="col-md-2">
             <img class="img-thumbnail " style="width:150px;height:150px;"
-                 src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"/>
+                 src="{{url_for('static', filename='images/user/'+home_id|string+'/head.jpg')}}"/>
         </div>
-        <div class="col-md-4 text-info">用户名：{{user_name}}<br>个人简介：{{user_intro}}</div>
+        <div class="col-md-4 text-info">用户名：{{home_name}}<br>个人简介：{{user_intro}}</div>
     </div>
     <br>
-<!--    <a href={{url_for("chat.index",user_id=user_id)}}><div style="font-size:20px">聊天</div></a>-->
+    <a href={{url_for("chat.index",user_id=home_id)}}><div style="font-size:20px">聊天</div></a>
     <br>
     <div class="row">
 
