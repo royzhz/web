@@ -14,9 +14,11 @@
 {% include "common/header.html" %}<!--引入网页的头部模板-->
 <div class="container">
     <h2>教师：</h2>
-    <img class="img-circle" style="width:60px;height:60px;"
-         src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"/>
-    <span style="vertical-align:middle;font-size: 30px">{{teacher_name}}</span>
+    <a href={{url_for("chat.index",user_id=teacher_id)}}>
+        <img class="img-circle" style="width:60px;height:60px;"
+             src="{{url_for('static', filename='images/user/'+teacher_id|string+'/head.jpg')}}"/>
+        <span style="vertical-align:middle;font-size: 30px">{{teacher_name}}</span>
+    </a>
     <hr>
     <table class="table table-striped">
         <thead>
