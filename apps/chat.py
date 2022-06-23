@@ -60,7 +60,6 @@ def allchat():
             name.append(sql.find_user(i.user2).name)
 
         chat_history.append(message.content)
-        print(has_check)
     return render_template("allchat.html",
                            has_check=has_check,
                            name=name,
@@ -77,7 +76,7 @@ def user_connect():
 
 @socketio.on('enter_room', namespace='/test')
 def enter_room(message):
-    print("enter")
+    #print("enter")
     user_id1=(message['user_id1'])
     user_id2=(message['user_id2'])
     roomid=sql.get_room_number(user_id1,user_id2)
