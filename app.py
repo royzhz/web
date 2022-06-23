@@ -27,6 +27,10 @@ def initdb(drop):#"""Initialize the database."""
     db.create_all()
     if drop:
         sql.add_new_class("20级计算机科学1班")
+        sql.add_new_class("20级计算机科学2班")
+        sql.add_new_class("20级大数据1班")
+        sql.add_new_class("20级人工智能1班")
+        sql.add_new_class("20级自动化1班")
         add_user(1234567,"张老师","1234567","","teacher","","20级计算机科学1班")
         add_user(1234561, "同学1", "1234567", "", "student", "","20级计算机科学1班")
         add_user(1234562, "同学2", "1234567", "", "student", "", "20级计算机科学1班")
