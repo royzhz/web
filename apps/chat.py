@@ -51,12 +51,12 @@ def allchat():
             has_check.append(1)
         else:
             has_check.append(0)
-        if his.user1==current_user.id:
-            id.append(his.user1)
-            name.append(sql.find_user(his.user1).name)
+        if i.user1==current_user.id:
+            id.append(i.user1)
+            name.append(sql.find_user(i.user1).name)
         else:
-            id.append(his.user2)
-            name.append(sql.find_user(his.user2).name)
+            id.append(i.user2)
+            name.append(sql.find_user(i.user2).name)
         chat_history.append(message.content)
     return render_template("allchat.html",
                            has_check=has_check,
