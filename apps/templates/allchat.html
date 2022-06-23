@@ -36,11 +36,11 @@
                 <div class="panel-body row">
                     <div class="col-md-12">
 
-                        <div class="wrap" style="width:80px;
+                        <div class="wrap" style="width:55px;
                                                 margin-bottom:0px;
                                                 position:relative;">
                             <div class="img">
-                                <img class="img-circle pull-left" style="width:80px;height:80px;"
+                                <img class="img-circle pull-left" style="width:55px;height:55px;"
                                      src="{{url_for('static', filename='images/user/'+id|string+'/head.jpg')}}">
                             </div>
                             {% if has_check[loop.index0] %}
@@ -57,8 +57,8 @@
                         <!--                        <img class="img-circle pull-left" style="width:40px;height:40px;"-->
                         <!--                             src="{{url_for('static', filename='images/user/'+id|string+'/head.jpg')}}">-->
                         <div>
-                            <div style="margin-left:100px;vertical-align:middle;font-size: 30px;color:black;">{{name[loop.index0]}}</div>
-                            <div style="margin-left:100px;font-size: 25px;color:#696969;">{{chat_history[loop.index0]}}</div>
+                            <div style="margin-left:75px;vertical-align:middle;font-size:22px;color:black;">{{name[loop.index0]}}</div>
+                            <div style="margin-left:75px;font-size:18px;color:#696969;">{{chat_history[loop.index0]}}</div>
                         </div>
                     </div>
                 </div>
