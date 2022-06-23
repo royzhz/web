@@ -2,6 +2,88 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
 <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link href="{{ url_for('static', filename='css/minecss.css') }}" rel="stylesheet">
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/minejs.js') }}"></script>
+<script type="text/javascript" charset="utf-8">
+    var sever_url='http://' + document.domain + ':' + location.port + '/test'
+    var user_me=eval("{{user_me|safe}}")
+    var user_other=eval("{{user_other|safe}}")
+    var room_id;
+    $(document).ready(function(){
+      //定义初始化函数
+      
+      var socket = io.connect(sever_url);
+      
+      //定义起始,比如进入房间等行为
+      socket.emit('enter_room',{'user_id1': user_me,'user_id2': user_other})
+      
+      //定义起始函数对应后端的响应函数比如后端返回的历史记录，打印在方块内
+      socket.on('has_enter', function(msg) 
+      {
+        room_id=msg['room_id'];
+        var chat_history=JSON.parse(msg['chat_history']);
+        for (var iter in chat_history){
+          var new_iter=chat_history[iter];
+          for(var p in new_iter){
+          if(p==user_me){
+          $('#log').append('<div style="text-align:right">' +p+':'+new_iter[p] + '</div>')
+          }
+          else{$('#log').append('<div >' +p+':'+new_iter[p] + '</div>')}
+
+          }
+        }
+        var div = document.getElementById('log');
+        log.scrollTop = log.scrollHeight;
+      });
+
+      //定义监听函数，接受消息
+      socket.on('accept_message', function(msg) {
+        $('#log').append('<div class="text-father"><div class="text-right">' + msg['publisher']+':'+msg['data'] + '</div></div>');
+        if(parseInt(msg['publisher'])==user_other)
+          socket.emit('ensure_receive',{'meassge_id':msg['id']})
+        var div = document.getElementById('log');
+        log.scrollTop = log.scrollHeight;}
+        );
+
+      
+
+      //定义在房间内行为
+      $('form#send_room').submit(function(event) {
+        socket.emit('new_message', {"user_id": user_me,"room_id": room_id,"recevier_id":user_other,'content':$('#room_data').val()});
+        return false;
+      });
+  
+    });
+
+
+
+
+
+
+</script>
+<style>
+.col-center-block {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.log{
+   overflow: hidden;
+   overflow-y: scroll;
+   white-space: nowrap;
+   height:100px;
+   width:100%;
+ }
+.log::-webkit-scrollbar {
+    width: 0;
+}
+</style>
 <style>
     *{
         padding: 0;
@@ -166,92 +248,6 @@
     }
 </style>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-<link href="{{ url_for('static', filename='css/minecss.css') }}" rel="stylesheet">
-<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/minejs.js') }}"></script>
-<script type="text/javascript" charset="utf-8">
-    var sever_url='http://' + document.domain + ':' + location.port + '/test'
-    var user_me=eval("{{user_me|safe}}")
-    var user_other=eval("{{user_other|safe}}")
-    var room_id;
-    $(document).ready(function(){
-      //定义初始化函数
-      
-      var socket = io.connect(sever_url);
-      
-      //定义起始,比如进入房间等行为
-      socket.emit('enter_room',{'user_id1': user_me,'user_id2': user_other})
-      
-      //定义起始函数对应后端的响应函数比如后端返回的历史记录，打印在方块内
-      socket.on('has_enter', function(msg) 
-      {
-        room_id=msg['room_id'];
-        var chat_history=JSON.parse(msg['chat_history']);
-        for (var iter in chat_history){
-          var new_iter=chat_history[iter];
-          for(var p in new_iter){
-          if(p==user_me){
-          $('#log').append('<div class="chat_right"><div style="chat_right_item_1 "><img style="width:50px;height:50px;" class="pull-right img-circle" src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"> </div><div class="chat_right_item_2"><div class="chat_right_time"></div><div class="chat_right_content">'+new_iter[p] + '</div></div></div>')
-          }else{$('#log').append('<div class="chat_left clearfix"><div class="chat_left_item_1 "><img style="width:50px;height:50px;" class="pull-left img-circle" src="{{url_for('static', filename='images/user/'+user_other|string+'/head.jpg')}}"> </div><div class="chat_left_item_2"><div class="chat_time"></div><div class="chat_left_content">'+new_iter[p] + '</div></div></div>')}
-
-          }
-        }
-        var div = document.getElementById('log');
-        log.scrollTop = log.scrollHeight;
-      });
-
-      //定义监听函数，接受消息
-      socket.on('accept_message', function(msg) {
-      if(parseInt(msg['publisher'])==user_other){
-        $('#log').append('<div class="chat_left clearfix"><div class="chat_left_item_1 "><img style="width:50px;height:50px;" class="pull-right img-circle" src="{{url_for('static', filename='images/user/'+user_id|string+'/head.jpg')}}"> </div><div class="chat_left_item_2"><div class="chat_time"></div><div class="chat_left_content">'+msg['data'] + '</div></div></div>');
-        }else{
-                $('#log').append('<div class="chat_right"><div class="chat_right_item_1 "><img style="width:50px;height:50px;" class="pull-left img-circle" src="{{url_for('static', filename='images/user/'+user_other|string+'/head.jpg')}}"></div><div class="chat_right_item_2"><div class="chat_right_time"></div><div class="chat_right_content">'+msg['data'] + '</div></div></div>');
-
-        }
-        if(parseInt(msg['publisher'])==user_other)
-          socket.emit('ensure_receive',{'meassge_id':msg['id']})
-        var div = document.getElementById('log');
-        log.scrollTop = log.scrollHeight;}
-        );
-
-
-
-      //定义在房间内行为
-      $('form#send_room').submit(function(event) {
-        socket.emit('new_message', {"user_id": user_me,"room_id": room_id,"recevier_id":user_other,'content':$('#room_data').val()});
-        return false;
-      });
-
-    });
-
-
-
-
-
-
-</script>
-<style>
-.col-center-block {
-    float: none;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.log{
-   overflow: hidden;
-   overflow-y: scroll;
-   white-space: nowrap;
-   height:600px;
-   width:100%;
- }
-.log::-webkit-scrollbar {
-    width: 0;
-}
-</style>
-
-
 {% include "common/header.html" %}<!--引入网页的头部模板-->
 
 <div class="text-center" style="margin-top:20px;background:#00BFFF;color:white;height:100px">
@@ -261,14 +257,14 @@
 <div class="container">
     <div class="row myCenter">
         <div class="col-xs-12 col-md-10 col-center-block">
-            <div id="log" class="log"></div>
+            <div id="log" class="log row"></div>
             <hr>
-            <form id="send_room" method="POST" action="#">
+            <form id="send_room" method="POST" action="#" role="form">
                 <div class="form-group row">
-                    <div class="col-md-11">
-                    <input type="text" required class="form-control" name="room_data" id="room_data" placeholder="Message">
+                    <div class="col-md-10">
+                    <input type="text" class="form-control" name="room_data" id="room_data" placeholder="Message">
                     </div>
-                    <input type="submit" class="btn btn-success pull-right" value="Send">
+                    <input type="submit" class="btn btn-success pull-right" value="Send to Room">
                 </div>
             </form>
         </div>

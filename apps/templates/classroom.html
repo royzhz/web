@@ -15,7 +15,8 @@
 <div class="container">
     <h2>教师：</h2>
     {% if teacher_id!=user_id %}
-    <a href={{url_for("basic.home",user_id=teacher_id)}}>
+<!--    <a href={{url_for("basic.home",user_id=teacher_id)}}>-->
+    <a href={{url_for("chat.index",user_id=teacher_id)}}>
         <img class="img-circle" style="width:60px;height:60px;"
              src="{{url_for('static', filename='images/user/'+teacher_id|string+'/head.jpg')}}"/>
         <span style="vertical-align:middle;font-size: 30px">{{teacher_name}}</span>
@@ -35,7 +36,8 @@
         <tr>
             <td>
                 {% if student_id[loop.index0]!=user_id %}
-                <a href={{url_for("basic.home",user_id=student_id[loop.index0])}}>
+                <a href={{url_for("chat.index",user_id=student_id[loop.index0])}}>
+<!--                <a href={{url_for("basic.home",user_id=student_id[loop.index0])}}>-->
                     <img class="img-circle" style="width:30px;height:30px;"
                          src="{{url_for('static', filename='images/user/'+student_id[loop.index0]|string+'/head.jpg')}}"/>
                     <span style="vertical-align:middle;font-size: 20px">{{name}}</span>
