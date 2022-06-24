@@ -182,14 +182,12 @@ def show_single_notice(class_id,notice_id):
 
     notice=sql.notice.query.get(int(notice_id))
     if request.method == "POST":
-        notice.has_received.append(current_user.id)
-        sql.db.session.commit()
+        sql.add_receive(notice,current_user.id)
 
 
     has_not_received=[]
     classroom=sql.class_room.query.get(int(class_id))
     is_teacher=classroom.teacher_in_class==current_user.id
-
     if(is_teacher):
         for i in classroom.user_in_class:
             if i.id not in notice.has_received and i.id!=classroom.teacher_in_class:
