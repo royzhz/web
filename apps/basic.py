@@ -95,7 +95,7 @@ def submitpost():
         else:
             postid = sql.publish_post(user_no, post_content, 0)
 
-        path=sql.post_route+str(postid)+'\\'+"1.jpg"
+        path=sql.post_route+str(postid)+sql.split+"1.jpg"
         if picture.filename!='':
             picture.save(path)
 
