@@ -164,6 +164,7 @@
         border-color: #f4f5f7;
         border-style: solid;
     }
+
 </style>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -231,6 +232,7 @@
 
 
 
+
 </script>
 <style>
 .col-center-block {
@@ -249,28 +251,31 @@
 .log::-webkit-scrollbar {
     width: 0;
 }
+
 </style>
 
 
 {% include "common/header.html" %}<!--引入网页的头部模板-->
-
-<div class="text-center" style="margin-top:20px;background:#00BFFF;color:white;height:100px">
-    <br>
-    <h1 style="margin-top:10px;">{{other_name}}</h1>
-</div>
-<div class="container">
-    <div class="row myCenter">
-        <div class="col-xs-12 col-md-10 col-center-block">
-            <div id="log" class="log"></div>
-            <hr>
-            <form id="send_room" method="POST" action="#">
-                <div class="form-group row" style="height:100px">
-                    <div class="col-md-11">
-                    <input type="text" required class="form-control" name="room_data" id="room_data" placeholder="Message">
+<body style="background: url(../static/images/img_login.jpg) no-repeat;background-size:100%;">
+    <div class="text-center" style="margin-top:20px;background:#00BFFF;color:white;height:100px">
+        <br>
+        <h1 style="margin-top:10px;">{{other_name}}</h1>
+    </div>
+    <div class="container">
+        <div class="row myCenter">
+            <div class="col-xs-12 col-md-10 col-center-block">
+                <div id="log" class="log"></div>
+                <hr>
+                <form id="send_room" method="POST" action="#">
+                    <div class="form-group row" style="height:100px">
+                        <div class="col-md-11">
+                            <input type="text" required class="form-control" name="room_data" id="room_data"
+                                   placeholder="Message">
+                        </div>
+                        <input type="submit" class="btn btn-success pull-right" value="Send">
                     </div>
-                    <input type="submit" class="btn btn-success pull-right" value="Send">
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</body>

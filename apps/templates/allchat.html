@@ -15,6 +15,7 @@
 </head>
 <body style="background: url(../static/images/top_image.jpg) no-repeat;background-size:100%;font-size: 15px;">
 {% include "common/header.html" %}<!--引入网页的头部模板-->
+<br>
 
 <div class="container">
     <h1 class="text-info">{{user_name}}的消息</h1>
@@ -32,7 +33,7 @@
 
         {% for id in id %}
         <a href={{url_for("chat.index",user_id=id)}}>
-            <div class="panel panel-default">
+            <div class="panel panel-default"  style="border-radius: 15px;">
                 <div class="panel-body row">
                     <div class="col-md-12">
 
