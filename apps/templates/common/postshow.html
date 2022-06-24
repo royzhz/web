@@ -3,7 +3,7 @@
 
         {% for post in pages %}
         <!--            <a href={{url_for("basic.viewpost",post_id=post.id)}}></a>-->
-        <div class="panel panel-default">
+        <div class="panel panel-default" style="border-radius: 15px;">
             <div class="panel-body row">
                 <div class="col-md-12">
                     <img class="img-circle" style="width:40px;height:40px;"
@@ -11,11 +11,11 @@
                     <span style="vertical-align:middle;font-size: 20px">{{post.publish_user_name}}</span>
                     {% if islogin %}
                     <a href={{url_for("basic.viewpost",post_id=post.id)}}>
-                        <div class="pull-right">查看详情</div>
+                        <div class="pull-right button1">查看详情</div>
                     </a>
                     {% endif %}
                 </div>
-                <div class="col-md-offset-1 col-md-11">
+                <div  style="margin-left:60px">
                     <p>{{post.post_content}}</p>
                     {% if post.picture_number %}
                     <div style="height:150px">
