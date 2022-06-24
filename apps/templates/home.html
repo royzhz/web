@@ -74,7 +74,7 @@
                     {% endif %}
                 </div>
                 <br>
-                {% if isyourself %}
+                {% if home_id!=user_id %}
                 <a href={{url_for("chat.index",user_id=home_id)}} class="button1 pull-right">
                     聊天
                 </a>
