@@ -34,7 +34,7 @@
                  src="{{ url_for('static', filename='images/post/'+post_id|string+'/'+picture_number|string+'.jpg') }}"/>
             {% endif %}
             <hr>
-            <p><small>{{time}}</small></p>
+            <p><small>{{time.strftime("%Y-%m-%d %H:%M:%S")}}</small></p>
             <br>
             <div class="panel panel-default">
                 <form class="form-horizontal" method="post">
@@ -59,12 +59,12 @@
                 <div class="panel-heading">
                     <img class="img-circle" style="width:40px;height:40px;"
                          src="{{url_for('static', filename='images/user/'+comment.belong_user|string+'/head.jpg')}}"/>
-                    <span style="vertical-align:middle;font-size: 30px">{{comment.belong_user.name}}</span>
+                    <span style="vertical-align:middle;font-size: 30px">{{comment.publish_user_name}}</span>
                 </div>
                 <div class="panel-body">
                     <p>{{comment.comment_content}}</p>
                     <hr>
-                    <p><small>{{comment.update_at}}</small></p>
+                    <p><small>{{comment.update_at.strftime("%Y-%m-%d %H:%M:%S")}}</small></p>
                 </div>
             </div>
             {% endfor %}
