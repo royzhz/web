@@ -21,54 +21,57 @@
 <br><br><br>
 <div class="container">
     <div class="row">
-
+        <a href={{url_for("basic.home",user_id=user.id)}}>
             <img class="img-circle" style="width:80px;height:80px;"
                  src="{{url_for('static', filename='images/user/'+user.id|string+'/head.jpg')}}"/>
             <span style="vertical-align:middle;font-size: 50px">{{user.name}}</span>
-            <hr>
-            <p>
-                {{post_content}}
-            </p>
-            {% if picture_number %}
-            <img class="img-thumbnail " style="height:200px;"
-                 src="{{ url_for('static', filename='images/post/'+post_id|string+'/'+picture_number|string+'.jpg') }}"/>
-            {% endif %}
-            <hr>
-            <p><small>{{time.strftime("%Y-%m-%d %H:%M:%S")}}</small></p>
-            <br>
-            <div class="panel panel-default">
-                <form class="form-horizontal" method="post">
-                    <div class="row">
-                        <div class="col-md-11">
-                            <div class="input-group">
-                                <div class="input-group-addon glyphicon glyphicon-pencil"></div>
-                                <textarea class="form-control" rows="1" name="comment_content" placeholder="请输入你的评论"
-                                          required></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <input type="submit" value="提交" class="btn btn-success pull-right">
+        </a>
+        <hr>
+        <p>
+            {{post_content}}
+        </p>
+        {% if picture_number %}
+        <img class="img-thumbnail " style="height:200px;"
+             src="{{ url_for('static', filename='images/post/'+post_id|string+'/'+picture_number|string+'.jpg') }}"/>
+        {% endif %}
+        <hr>
+        <p><small>{{time.strftime("%Y-%m-%d %H:%M:%S")}}</small></p>
+        <br>
+        <div class="panel panel-default ">
+            <form class="form-horizontal" method="post">
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="input-group">
+                            <div class="input-group-addon glyphicon glyphicon-pencil"></div>
+                            <textarea class="form-control" rows="1" name="comment_content" placeholder="请输入你的评论"
+                                      required></textarea>
                         </div>
                     </div>
-                </form>
-            </div>
-            {{get_flashed_messages()[0]}}
-            <br>
-            {% for comment in comment %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
+                    <div class="col-md-1">
+                        <input type="submit" value="提交" class="btn btn-success pull-right">
+                    </div>
+                </div>
+            </form>
+        </div>
+        {{get_flashed_messages()[0]}}
+        <br>
+        {% for comment in comment %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href={{url_for("basic.home",user_id=comment.belong_user)}}>
                     <img class="img-circle" style="width:40px;height:40px;"
                          src="{{url_for('static', filename='images/user/'+comment.belong_user|string+'/head.jpg')}}"/>
                     <span style="vertical-align:middle;font-size: 30px">{{comment.publish_user_name}}</span>
-                </div>
-                <div class="panel-body">
-                    <p>{{comment.comment_content}}</p>
-                    <hr>
-                    <p><small>{{comment.update_at.strftime("%Y-%m-%d %H:%M:%S")}}</small></p>
-                </div>
+                </a>
             </div>
-            {% endfor %}
+            <div class="panel-body">
+                <p>{{comment.comment_content}}</p>
+                <hr>
+                <p><small>{{comment.update_at.strftime("%Y-%m-%d %H:%M:%S")}}</small></p>
+            </div>
         </div>
+        {% endfor %}
+    </div>
 
 
 </div>

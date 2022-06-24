@@ -28,6 +28,23 @@
   color: white;
 }
 
+.button2 {
+  background-color: white;
+  color: black;
+  border: 2px solid #1E90FF; /* 绿色 */
+  transition-duration: 0.4s;
+  font-size:15px;
+  border-radius: 12px;
+  padding: 5px 10px;
+}
+.button2:hover {
+  background-color: #1E90FF; /* Green */
+  color: white;
+}
+
+
+
+
 
     </style>
 </head>
@@ -74,15 +91,15 @@
 
         {% for post in all_post %}
 
-        <div class="panel panel-default">
-            <div class="panel-body row">
+        <div class="panel panel-default" style="border-radius: 15px;">
+            <div class="panel-body row" style="border-radius: 15px;">
                 <div class="col-md-12">
                     <img class="img-circle" style="width:40px;height:40px;"
                          src="{{url_for('static', filename='images/user/'+post.publish_user_id|string+'/head.jpg')}}">
                     <span style="vertical-align:middle;font-size: 20px">{{post.publish_user_name}}</span>
 
                     <a href={{url_for("basic.viewpost",post_id=post.id)}}>
-                        <div class="pull-right">查看详情</div>
+                        <div class="pull-right button2">查看详情</div>
                     </a>
 
                 </div>
