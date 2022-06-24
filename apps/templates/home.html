@@ -13,26 +13,63 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/minejs.js') }}"></script>
 
+    <style>
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50; /* 绿色 */
+  transition-duration: 0.4s;
+  font-size:20px;
+  border-radius: 12px;
+  padding: 10px 24px;
+}
+.button1:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
 
+
+    </style>
 </head>
 <body style="background: url(../static/images/top_image.jpg) no-repeat;background-size:100%;font-size: 15px;">
 {% include "common/header.html" %}<!--引入网页的头部模板-->
 
 <div class="container">
-    <h1 class="text-info">{{user_name}}的主页</h1>
+    <h1 class="text-info">{{home_name}}的主页</h1>
 
     <br><br><br><br><br>
+
     <div class="row">
-        <div class="col-md-2">
-            <img class="img-thumbnail " style="width:150px;height:150px;"
-                 src="{{url_for('static', filename='images/user/'+home_id|string+'/head.jpg')}}"/>
+        <div class="panel panel-default col-md-3">
+            <div class="panel-body">
+                <img class="img-circle center-block" style="width:130px;height:130px;"
+                     src="{{url_for('static', filename='images/user/'+home_id|string+'/head.jpg')}}"/>
+
+                <div class="col-md-12 text-center" style="font-size:24px">{{home_name}}</div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3 container-fluid">简介:</div>
+                    {% if user_intro %}
+                    <div class="col-md-9 container-fluid">{{user_intro}}</div>
+                    {% else %}
+                    <div class="col-md-9 container-fluid">这个人并没有留下简介。</div>
+                    {% endif %}
+                </div>
+                <br>
+                {% if 1 %}
+                <a href={{url_for("chat.index",user_id=home_id)}} class="button1 pull-right">
+                    聊天
+                </a>
+                {% endif %}
+            </div>
         </div>
-        <div class="col-md-4 text-info">用户名：{{home_name}}<br>个人简介：{{user_intro}}</div>
     </div>
     <br>
-    <a href={{url_for("chat.index",user_id=home_id)}}><div style="font-size:20px">聊天</div></a>
+
     <br>
+
     <div class="row">
+        {% if all_post %}
 
         {% for post in all_post %}
 
@@ -61,6 +98,15 @@
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        <div>
+            <img class="center-block img-responsive" style="width:500px;"
+                 src="{{url_for('static', filename='images/无帖子.jpg')}}">
+            <div class="text-info text-center" style="font-size:30px">
+                这个人没有留下任何帖子。
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 </body>
